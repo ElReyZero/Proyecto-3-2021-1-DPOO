@@ -39,6 +39,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
     private JButton editarCurso;
     private JButton candidaturaGrado;
     private JButton cargarPensum;
+    private JButton cargarCartelera;
     private JButton guardarArchivo;
     private JButton cargarArchivo;
     private JButton validarRequisitos;
@@ -127,6 +128,8 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         panelCarga.setLayout(new BoxLayout(panelCarga,BoxLayout.LINE_AXIS));
         cargarPensum = new JButton("Cargar Pensum");
         cargarPensum.addActionListener(this);
+        cargarCartelera = new JButton("Cargar Cartelera");
+        cargarCartelera.addActionListener(this);
         guardarArchivo = new JButton("Guardar avance en un archivo");
         guardarArchivo.addActionListener(this);
         cargarArchivo = new JButton("Cargar datos del estudiante");
@@ -136,6 +139,8 @@ public class VentanaCoordinador extends JPanel implements ActionListener
         panelCarga.add(guardarArchivo);
         panelCarga.add(Box.createRigidArea(new Dimension(10,0)));
         panelCarga.add(cargarArchivo);
+        panelCarga.add(Box.createRigidArea(new Dimension(10,0)));
+        panelCarga.add(cargarCartelera);
         panelCarga.add(Box.createRigidArea(new Dimension(0,50)));
         guardarArchivo.setAlignmentX(CENTER_ALIGNMENT);
         cargarArchivo.setAlignmentX(CENTER_ALIGNMENT);
@@ -188,23 +193,57 @@ public class VentanaCoordinador extends JPanel implements ActionListener
 		{
 			ventanaMain.resetMain();
 		}
+        else if(boton == cargarCartelera)
+        {
+            File Cartelera = null;
+            JFileChooser fc = new JFileChooser();
+            fc.setDialogTitle("Seleccione el archivo con la cartelera");
+            fc.setFileFilter(new FiltroCSV());
+            int respuesta = fc.showOpenDialog(this);
+            if(respuesta == JFileChooser.APPROVE_OPTION)
+                {
+                    Cartelera = fc.getSelectedFile();
+                }
+        }
         else if(boton == cargarPensum)
 		{
 
-            File archivo = null;
-		    JFileChooser fc = new JFileChooser();
-		    fc.setDialogTitle("Seleccione el archivo con el pensum");
-			fc.setFileFilter(new FiltroCSV());
-            int respuesta = fc.showOpenDialog(this);
-            if(respuesta == JFileChooser.APPROVE_OPTION)
+            if (pensum == null)
             {
-                archivo = fc.getSelectedFile();
-                sistema.cargarPensumAnalizador(archivo);
+                File archivo = null;
+                JFileChooser fc = new JFileChooser();
+                fc.setDialogTitle("Seleccione el archivo con el pensum");
+                fc.setFileFilter(new FiltroCSV());
+                int respuesta = fc.showOpenDialog(this);
+                if(respuesta == JFileChooser.APPROVE_OPTION)
+                {
+                    archivo = fc.getSelectedFile();
+                    sistema.cargarPensumAnalizador(archivo);
+                    pensum = sistema.darPensum();
+                }
             }
-            if(pensum == null)
+            else
             {
-                pensum = sistema.darPensum(); 
-            }            
+                File archivo_pensumNuevo = null;
+			    JFileChooser fc = new JFileChooser("./data");
+			    fc.setDialogTitle("Seleccione el archivo con el programa reformado");
+			    fc.setFileFilter(new FiltroCSV());
+			    int resultado = fc.showOpenDialog(this);
+			    if (resultado == JFileChooser.APPROVE_OPTION)
+			{
+				archivo_pensumNuevo = fc.getSelectedFile();
+
+				File archivo_homologacion = null;
+				fc = new JFileChooser("./data");
+				fc.setDialogTitle("Seleccione el archivo con las homologaciones entre los programas");
+				fc.setFileFilter(new FiltroCSV());
+				resultado = fc.showOpenDialog(this);
+				if (resultado == JFileChooser.APPROVE_OPTION)
+				{
+					archivo_homologacion = fc.getSelectedFile();
+				}
+            }
+        }             
         }
         else if(boton == reporteNotas)
         {
