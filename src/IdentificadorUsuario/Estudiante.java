@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Sistema.BannerException;
 import Sistema.analizadorArchivo;
 import curriculo.Materia;
 import curriculo.MateriaEstudiante;
@@ -32,12 +33,11 @@ public class Estudiante extends Usuario implements Cloneable{
 	}
 
 	//Métodos
-	public int registrarMaterias(String codigo, double semestre, String nota, boolean tipoE, boolean epsilon, Pensum pensum, boolean CLE, double clecreds)
+	public int registrarMaterias(String codigo, double semestre, String nota, boolean tipoE, boolean epsilon, Pensum pensum, boolean CLE, double clecreds) throws BannerException
 	{
 		if (codigo.length() != 9 || !codigo.contains("-"))
 		{
-			///Error :("El código de materia "+codigo+" no está escrito en un formato adecuado. Formato: AAAA-XXXX");
-			return -1;
+			throw new BannerException("El código de materia "+codigo+" no está escrito en un formato adecuado. Formato: AAAA-XXXX");
 		}
 		var listaMaterias = pensum.darMateriasPensum();
 		String matString = pensum.darMateriasString();
@@ -52,8 +52,8 @@ public class Estudiante extends Usuario implements Cloneable{
 						{
 							if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel1String().get(i)))
 							{
-								//Error("Para poder inscribir " + codigo + " necesitas haber inscrito todas las materias de nivel 1");
-								return -2;
+								throw new BannerException("Para poder inscribir " + codigo + " necesitas haber inscrito todas las materias de nivel 1");
+								
 							}
 						}	
 					}
@@ -63,8 +63,7 @@ public class Estudiante extends Usuario implements Cloneable{
 						{
 							if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel2String().get(i)))
 							{
-								///Error("Para poder inscribir " + codigo + " necesitas haber inscrito todas las materias de nivel 2");
-								return -3;
+								throw new BannerException("Para poder inscribir " + codigo + " necesitas haber inscrito todas las materias de nivel 2");
 							}
 						}
 					}
@@ -111,8 +110,7 @@ public class Estudiante extends Usuario implements Cloneable{
 							{
 								error = "";
 								error = "Se está intentando registrar "+ codigo +" sin haber inscrito todos los prerrequisitos previamente. Prerequisitos(s) sin inscribir: " + String.join(", ", prerrequisitos);
-								///Error("Se está intentando registrar "+ codigo +" sin haber cumplido todos los prerrequisitos previamente.\nPrerrequisito(s) sin cumplir:\n" + String.join("\n", prerrequisitos));
-								return -4;
+								throw new BannerException("Se está intentando registrar "+ codigo +" sin haber cumplido todos los prerrequisitos previamente.\nPrerrequisito(s) sin cumplir:\n" + String.join("\n", prerrequisitos));
 							}
 
 						}
@@ -148,8 +146,7 @@ public class Estudiante extends Usuario implements Cloneable{
 								{
 									error = "";
 									error = "Se está intentando registrar "+ codigo +" sin haber inscrito todos los correquisitos previamente. Correquisitos(s) sin inscribir: " + String.join(", ", correquisitos);
-									///Error("Se está intentando registrar "+ codigo +" sin haber inscrito todos los correquisitos previamente.\nCorrequisitos(s) sin inscribir:\n" + String.join("\n", correquisitos));
-									return -5;
+									throw new BannerException("Se está intentando registrar "+ codigo +" sin haber inscrito todos los correquisitos previamente.\nCorrequisitos(s) sin inscribir:\n" + String.join("\n", correquisitos));
 								}
 							}
 						}
@@ -242,14 +239,14 @@ public class Estudiante extends Usuario implements Cloneable{
 				{
 					if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel1String().get(i)))
 					{
-						return -2;
+						throw new BannerException("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 1. Error: (Restricción de Nivel)");
 					}
 				}
 			for(int i = 0; pensum.darMateriasNivel2String().size()>i; i++)
 			{
 				if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel2String().get(i)))
 					{
-						return -3;
+						throw new BannerException("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 2. Error: (Restricción de Nivel)");
 					}
 			}
 			double creds = 3;
@@ -284,14 +281,14 @@ public class Estudiante extends Usuario implements Cloneable{
 				{
 					if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel1String().get(i)))
 					{
-						return -2;
+						throw new BannerException("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 1. Error: (Restricción de Nivel)");
 					}
 				}
 			for(int i = 0; pensum.darMateriasNivel2String().size()>i; i++)
 			{
 				if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel2String().get(i)))
 					{
-						return -3;
+						throw new BannerException("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 2. Error: (Restricción de Nivel)");
 					}
 			}
 			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 2, "Electiva Profesional", 0, true, semestre);
@@ -335,7 +332,7 @@ public class Estudiante extends Usuario implements Cloneable{
 		{
 			error = "";
 			error = codigo;
-			return -6;
+			throw new BannerException(codigo);
 		}
 
     }	
@@ -375,8 +372,7 @@ public class Estudiante extends Usuario implements Cloneable{
 				}
 				else
 				{
-					///Error("No se puede repetir una materia que no haya sido perdida.");
-					return -7;
+					throw new BannerException("No se puede repetir una materia que no haya sido perdida.");
 				}
 
 					} 
@@ -410,13 +406,12 @@ public class Estudiante extends Usuario implements Cloneable{
 					}
 					else
 					{
-						///Error("No se puede repetir una materia que no haya sido perdida.");
-						return -7;
+						throw new BannerException("No se puede repetir una materia que no haya sido perdida.");
 					}
 			}
 		}
 	}
-		return -40;
+		throw new BannerException("Error al inscribir materias (Estudiante.java) line414");
 	}
 
 

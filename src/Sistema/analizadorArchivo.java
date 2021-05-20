@@ -1,9 +1,11 @@
 package Sistema;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -135,7 +137,7 @@ public class analizadorArchivo {
 		return 0;
 	}
 
-	public int cargarAvanceEstudiante(File archivo, Estudiante estudiante)
+	public int cargarAvanceEstudiante(File archivo, Estudiante estudiante) throws BannerException
 	{
 		try
 			{
@@ -253,7 +255,7 @@ public class analizadorArchivo {
 			}
 	}
 
-	public int cargarAvanceCoordinador(File archivo, CoordinadorAcademico coordinador)
+	public int cargarAvanceCoordinador(File archivo, CoordinadorAcademico coordinador) throws BannerException
 	{
 		String codigoEst = "";
 		try
@@ -387,5 +389,33 @@ public class analizadorArchivo {
 	public String retornarMateriaError(String materia)
 	{
 		return materia;
+	}
+	
+	public void escribirLog(String error)
+	{
+		File logs = new File("./logs/RuntimeErrors.txt");
+		try 
+		{
+			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(logs, true)), true);
+			pw.println(error);
+			pw.close();
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void escribirErrorLog(Exception e)
+	{
+		String error = "";
+		error += e.getMessage();
+		for (StackTraceElement elemento: e.getStackTrace())
+		{
+			error += elemento+"\n";
+		}
+		
+		escribirLog(error);
 	}
 }

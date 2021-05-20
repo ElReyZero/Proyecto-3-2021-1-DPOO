@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 
 import IdentificadorUsuario.Estudiante;
+import Sistema.BannerException;
 import Sistema.systemMain;
 import curriculo.Pensum;
 
@@ -13,7 +14,7 @@ public class planeador {
     private static Estudiante copia;
 
     //Métodos
-    public static String crearPlaneacion(Estudiante pCopia,Pensum pensum,String codigoMateria, double semestre,String nota, boolean tipoE, boolean epsilon, boolean cle, double credsCle)
+    public static String crearPlaneacion(Estudiante pCopia,Pensum pensum,String codigoMateria, double semestre,String nota, boolean tipoE, boolean epsilon, boolean cle, double credsCle) throws BannerException
     {
         String plan = "";
         error = 0;

@@ -28,7 +28,7 @@ public class systemMain
         return analizador.darPensum();
     }
 
-    public int cargarAvanceEstudiante(File archivo, Estudiante estudiante)
+    public int cargarAvanceEstudiante(File archivo, Estudiante estudiante) throws BannerException
     {
         return analizador.cargarAvanceEstudiante(archivo, estudiante);
     }
@@ -43,9 +43,19 @@ public class systemMain
         return analizador.guardarPlaneación(archivo, plan, estudiante);
     }
 
-    public int cargarAvanceCoordinador(File archivo, CoordinadorAcademico coordinador)
+    public int cargarAvanceCoordinador(File archivo, CoordinadorAcademico coordinador) throws BannerException
     {
         return analizador.cargarAvanceCoordinador(archivo, coordinador);
+    }
+    
+    public void escribirLog(String error)
+    {
+    	analizador.escribirLog(error);
+    }
+    
+    public void escribirException(Exception e)
+    {
+    	analizador.escribirErrorLog(e);
     }
 }
 

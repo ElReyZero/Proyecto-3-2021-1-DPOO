@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 
 import IdentificadorUsuario.CoordinadorAcademico;
 import IdentificadorUsuario.Estudiante;
+import Sistema.BannerException;
 import Sistema.systemMain;
 import curriculo.MateriaEstudiante;
 import curriculo.Pensum;
@@ -107,7 +108,7 @@ public class VentanaPlaneador extends JPanel implements ActionListener
       return panelVolver;
     }
 
-    public String registroMateriasPlaneador(Estudiante estudiante, String codigoMateria, double semester, String grade, boolean esE, boolean esEpsilon, Pensum pensum, boolean esCle, double credsCle, String plan)
+    public String registroMateriasPlaneador(Estudiante estudiante, String codigoMateria, double semester, String grade, boolean esE, boolean esEpsilon, Pensum pensum, boolean esCle, double credsCle, String plan) throws BannerException
     {
         lastSubject = planeador.crearPlaneacion(estudiante, pensum, codigoMateria, semester, grade, esE, esEpsilon, esCle, credsCle);
         plan += lastSubject;
@@ -150,7 +151,7 @@ public class VentanaPlaneador extends JPanel implements ActionListener
         return plan;
     }
 
-    public String registroClePlaneador(Estudiante estudiante, String codMateria, double semestre, String nota, boolean esE, boolean epsilon, Pensum pensum, String plan)
+    public String registroClePlaneador(Estudiante estudiante, String codMateria, double semestre, String nota, boolean esE, boolean epsilon, Pensum pensum, String plan) throws BannerException
     {
         JTextField creds = new JTextField();
         final JComponent[] inputsCLE = new JComponent[] 
@@ -248,11 +249,36 @@ public class VentanaPlaneador extends JPanel implements ActionListener
                     }
                     if(cle.isSelected())
                     {
-                        plan += registroClePlaneador(copia, codMateria.getText(), Double.parseDouble(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, plan);
+                        try 
+                        {
+                            plan += registroClePlaneador(copia, codMateria.getText(), Double.parseDouble(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, plan);
+                        } 
+                        catch (NumberFormatException e1) 
+                        {
+                            sistema.escribirException(e1);
+                            e1.printStackTrace();
+                        } catch (BannerException e1) 
+                        {
+                            sistema.escribirException(e1);
+                            JOptionPane.showMessageDialog(this, new JLabel(e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+                            e1.printStackTrace();
+                        }
                     }
                     else
                     {
-                        plan += registroMateriasPlaneador(copia, codMateria.getText(), Double.parseDouble(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, false, 0, plan);
+                        try 
+                        {
+                            plan += registroMateriasPlaneador(copia, codMateria.getText(), Double.parseDouble(semestre.getText()), "A", tipoE.isSelected(), epsilon.isSelected(), pensum, false, 0, plan);
+                        } 
+                        catch (NumberFormatException e1) 
+                        {
+                            sistema.escribirException(e1);
+                            e1.printStackTrace();
+                        } catch (BannerException e1) {
+                            sistema.escribirException(e1);
+                            JOptionPane.showMessageDialog(this, new JLabel(e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+                            e1.printStackTrace();
+                        }
                     }
                 }
         }            

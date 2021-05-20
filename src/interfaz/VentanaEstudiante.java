@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import IdentificadorUsuario.Estudiante;
+import Sistema.BannerException;
 import Sistema.systemMain;
 import curriculo.MateriaEstudiante;
 import curriculo.Pensum;
@@ -321,54 +322,33 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                 if(respuesta == JFileChooser.APPROVE_OPTION)
                 {
                     archivo = fc.getSelectedFile();
-                    int res = sistema.cargarAvanceEstudiante(archivo, estudiante);
-                    if (res == -10)
+                    int res;
+					try 
                     {
-                        JOptionPane.showMessageDialog(this, new JLabel("El archivo no fue encontrado"), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else if(res == -11)
-                    {
-                        JOptionPane.showMessageDialog(this, new JLabel("Error de lectura"), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
+						res = sistema.cargarAvanceEstudiante(archivo, estudiante);
+                        if (res == -10)
+                        {
+                            JOptionPane.showMessageDialog(this, new JLabel("El archivo no fue encontrado"), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        else if(res == -11)
+                        {
+                            JOptionPane.showMessageDialog(this, new JLabel("Error de lectura"), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                         else if(res == -12)
+                        {
+                            JOptionPane.showMessageDialog(this, new JLabel("Error en los datos: un número no se pudo convertir a int ..."), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        else if(res == 0)
+                        {
+                            JOptionPane.showMessageDialog(this, new JLabel("Materias registradas satisfactoriamente!"), null, JOptionPane.INFORMATION_MESSAGE);
+                        }
+					} 
+                    catch (BannerException e1) 
                     {
-                        JOptionPane.showMessageDialog(this, new JLabel("Error en los datos: un número no se pudo convertir a int ..."), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else if(res == -1)
-                    {
-                        JOptionPane.showMessageDialog(this, new JLabel("Hubo un problema con el código de una materia, no está escrito en un formato adecuado. Formato: AAAA-XXXX"), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else if(res == -2)
-                    {
-                        JOptionPane.showMessageDialog(this, new JLabel("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 1. Error: (Restricción de Nivel)"), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else if(res == -3)
-                    {
-                        JOptionPane.showMessageDialog(this, new JLabel("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 2. Error: (Restricción de Nivel)"), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else if(res == -4)
-                    {
-                        String errorEstudianteReg = estudiante.darErrorString();
-                        JOptionPane.showMessageDialog(this, new JLabel(errorEstudianteReg), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else if(res == -5)
-                    {
-                        String errorEstudianteReg = estudiante.darErrorString();
-                        JOptionPane.showMessageDialog(this, new JLabel(errorEstudianteReg), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else if (res == -6)
-                    {
-                        String errorEstudianteReg = estudiante.darErrorString();
-                        JOptionPane.showMessageDialog(this, new JLabel("Hubo un problema inscribiendo materias " + errorEstudianteReg + " no fue encontrada."), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else if(res == -7)
-                    {
-                        JOptionPane.showMessageDialog(this, new JLabel("No se puede repetir una materia que no haya sido perdida."), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else if(res == 0)
-                    {
-                        JOptionPane.showMessageDialog(this, new JLabel("Materias registradas satisfactoriamente!"), null, JOptionPane.INFORMATION_MESSAGE);
-                    }
+						sistema.escribirException(e1);
+                        JOptionPane.showMessageDialog(this, new JLabel(e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+						e1.printStackTrace();
+					}  
                 }    
             } 
         }
@@ -427,22 +407,53 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                 String opcion = opciones.getSelectedItem().toString();
                 if(opcion.equals("Examen de inglés de admisión"))
                 {
-                    estudiante.registrarMaterias("LENG-2999", 1, "A",false,false, pensum, false, 0);
+                    try 
+                    {
+                        estudiante.registrarMaterias("LENG-2999", 1, "A",false,false, pensum, false, 0);
+                    } 
+                    catch (BannerException e1) 
+                    {
+                        sistema.escribirException(e1);
+                        e1.printStackTrace();
+                    }
                     JOptionPane.showMessageDialog(this, new JLabel("Requisito registrado"), null, JOptionPane.INFORMATION_MESSAGE);
                 }
                 else if(opcion.equals("Aprobó el nivel 6 de su segunda lengua"))
                 {
-                    estudiante.registrarMaterias("LENG-2999", 1, "A",false,false, pensum, false, 0);
+                    try 
+                    {
+                        estudiante.registrarMaterias("LENG-2999", 1, "A",false,false, pensum, false, 0);
+                    } 
+                    catch (BannerException e1) {
+                        sistema.escribirException(e1);
+                        e1.printStackTrace();
+                    }
                     JOptionPane.showMessageDialog(this, new JLabel("Requisito registrado"), null, JOptionPane.INFORMATION_MESSAGE);
                 }
                 else if(opcion.equals("Requisito de segunda lengua (Homologación con examen)"))
                 {
-                    estudiante.registrarMaterias("LENG-3999", 1, "A",false,false, pensum, false, 0);
+                    try 
+                    {
+                        estudiante.registrarMaterias("LENG-3999", 1, "A",false,false, pensum, false, 0);
+                    } 
+                    catch (BannerException e1)
+                     {
+                        sistema.escribirException(e1);
+                        e1.printStackTrace();
+                    }
                     JOptionPane.showMessageDialog(this, new JLabel("Requisito registrado"), null, JOptionPane.INFORMATION_MESSAGE);
                 }
                 else if(opcion.equals("Requisito de segunda lengua (Nivel 10)"))
                 {
-                    estudiante.registrarMaterias("LENG-3999", 1, "A",false,false, pensum, false, 0);
+                    try 
+                    {
+                        estudiante.registrarMaterias("LENG-3999", 1, "A",false,false, pensum, false, 0);
+                    } 
+                    catch (BannerException e1) 
+                    {
+                        sistema.escribirException(e1);
+                        e1.printStackTrace();
+                    }
                     JOptionPane.showMessageDialog(this, new JLabel("Requisito registrado"), null, JOptionPane.INFORMATION_MESSAGE);
                 }
                 else if(revisar == JOptionPane.CLOSED_OPTION)
@@ -617,40 +628,20 @@ public class VentanaEstudiante extends JPanel implements ActionListener
 	
     public void registroMat(Estudiante estudiante, String codigoMateria, double semester, String grade, boolean esE, boolean esEpsilon, Pensum pensum, boolean esCle, double credsCle)
     {
-        int respuesta = estudiante.registrarMaterias(codigoMateria, semester, grade, esE, esEpsilon, pensum, esCle, credsCle);
-        if(respuesta == -1)
+        int respuesta;
+        try 
+        {
+            respuesta = estudiante.registrarMaterias(codigoMateria, semester, grade, esE, esEpsilon, pensum, esCle, credsCle);
+            if(respuesta == 0)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("El código de la materia "+codigoMateria+" no está escrito en un formato adecuado. Formato: AAAA-XXXX"), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel(codigoMateria+" Registrada Satisfactoriamente!"), null, JOptionPane.INFORMATION_MESSAGE);
             }
-        else if(respuesta == -2)
+        } 
+        catch (BannerException e) 
         {
-            JOptionPane.showMessageDialog(this, new JLabel("Para poder inscribir " + codigoMateria + " necesitas haber inscrito todas las materias de nivel 1"), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else if(respuesta == -3)
-        {
-            JOptionPane.showMessageDialog(this, new JLabel("Para poder inscribir " + codigoMateria + " necesitas haber inscrito todas las materias de nivel 2"), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else if(respuesta == -4)
-        {
-            String errorEstudianteReg = estudiante.darErrorString();
-            JOptionPane.showMessageDialog(this, new JLabel("Se está intentando registrar "+ codigoMateria +" sin haber cumplido todos los prerrequisitos previamente." + errorEstudianteReg), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else if(respuesta == -5)
-        {
-            String errorEstudianteReg = estudiante.darErrorString();
-            JOptionPane.showMessageDialog(this, new JLabel(errorEstudianteReg), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else if (respuesta == -6)
-        {
-            JOptionPane.showMessageDialog(this, new JLabel("El curso "+codigoMateria+" no fue encontrado."), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else if(respuesta == -7)
-        {
-            JOptionPane.showMessageDialog(this, new JLabel("No se puede repetir una materia que no haya sido perdida."), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else if(respuesta == 0)
-        {
-            JOptionPane.showMessageDialog(this, new JLabel(codigoMateria+" Registrada Satisfactoriamente!"), null, JOptionPane.INFORMATION_MESSAGE);
+            sistema.escribirException(e);
+            JOptionPane.showMessageDialog(this, new JLabel(e.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }
 
