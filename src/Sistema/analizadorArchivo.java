@@ -410,7 +410,7 @@ public class analizadorArchivo {
 	public void escribirErrorLog(Exception e)
 	{
 		String error = "";
-		error += e.getMessage();
+		error += e.getMessage() + '\n';
 		for (StackTraceElement elemento: e.getStackTrace())
 		{
 			error += elemento+"\n";
