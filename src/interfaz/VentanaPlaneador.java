@@ -108,46 +108,25 @@ public class VentanaPlaneador extends JPanel implements ActionListener
       return panelVolver;
     }
 
-    public String registroMateriasPlaneador(Estudiante estudiante, String codigoMateria, double semester, String grade, boolean esE, boolean esEpsilon, Pensum pensum, boolean esCle, double credsCle, String plan) throws BannerException
+    public String registroMateriasPlaneador(Estudiante estudiante, String codigoMateria, double semester, String grade, boolean esE, boolean esEpsilon, Pensum pensum, boolean esCle, double credsCle, String plan)
     {
-        lastSubject = planeador.crearPlaneacion(estudiante, pensum, codigoMateria, semester, grade, esE, esEpsilon, esCle, credsCle);
-        plan += lastSubject;
-        int respuesta = planeador.darError();
-        if(respuesta == -1)
+        try 
+        {
+            lastSubject = planeador.crearPlaneacion(estudiante, pensum, codigoMateria, semester, grade, esE, esEpsilon, esCle, credsCle);
+            plan += lastSubject;
+            int respuesta = planeador.darError();
+            if(respuesta == 0)
             {
-                JOptionPane.showMessageDialog(this, new JLabel("El código de la materia "+codigoMateria+" no está escrito en un formato adecuado. Formato: AAAA-XXXX"), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel(codigoMateria+" Registrada Satisfactoriamente!"), null, JOptionPane.INFORMATION_MESSAGE);
+                actualizarLista();
             }
-        else if(respuesta == -2)
+        } 
+        catch (BannerException e) 
         {
-            JOptionPane.showMessageDialog(this, new JLabel("Para poder inscribir " + codigoMateria + " necesitas haber inscrito todas las materias de nivel 1"), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else if(respuesta == -3)
-        {
-            JOptionPane.showMessageDialog(this, new JLabel("Para poder inscribir " + codigoMateria + " necesitas haber inscrito todas las materias de nivel 2"), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else if(respuesta == -4)
-        {
-            String errorEstudianteReg = estudiante.darErrorString();
-            JOptionPane.showMessageDialog(this, new JLabel("Se está intentando registrar "+ codigoMateria +" sin haber cumplido todos los prerrequisitos previamente." + errorEstudianteReg), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else if(respuesta == -5)
-        {
-            String errorEstudianteReg = estudiante.darErrorString();
-            JOptionPane.showMessageDialog(this, new JLabel(errorEstudianteReg), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else if (respuesta == -6)
-        {
-            JOptionPane.showMessageDialog(this, new JLabel("El curso "+codigoMateria+" no fue encontrado."), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else if(respuesta == -7)
-        {
-            JOptionPane.showMessageDialog(this, new JLabel("No se puede repetir una materia que no haya sido perdida."), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else if(respuesta == 0)
-        {
-            JOptionPane.showMessageDialog(this, new JLabel(codigoMateria+" Registrada Satisfactoriamente!"), null, JOptionPane.INFORMATION_MESSAGE);
-            actualizarLista();
-        }
+            sistema.escribirException(e);
+            JOptionPane.showMessageDialog(this, new JLabel(e.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }       
         return plan;
     }
 
@@ -273,10 +252,6 @@ public class VentanaPlaneador extends JPanel implements ActionListener
                         catch (NumberFormatException e1) 
                         {
                             sistema.escribirException(e1);
-                            e1.printStackTrace();
-                        } catch (BannerException e1) {
-                            sistema.escribirException(e1);
-                            JOptionPane.showMessageDialog(this, new JLabel(e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
                             e1.printStackTrace();
                         }
                     }

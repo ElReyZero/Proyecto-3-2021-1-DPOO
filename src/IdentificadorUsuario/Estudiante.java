@@ -19,7 +19,6 @@ public class Estudiante extends Usuario implements Cloneable{
 	private ArrayList<MateriaEstudiante> cursosTomados;
 	private ArrayList<String> cursosTomadosArrayString;
 	private String tomadosString;
-	private String error;
 	
 	//Constructor
 	public Estudiante(String pNombre, String pCodigo, String pCarrera) 
@@ -29,7 +28,6 @@ public class Estudiante extends Usuario implements Cloneable{
 		cursosTomados = new ArrayList<MateriaEstudiante>();
 		cursosTomadosArrayString = new ArrayList<String>();
 		tomadosString = "-----------------------------------\n";
-		error = "";
 	}
 
 	//Métodos
@@ -108,9 +106,7 @@ public class Estudiante extends Usuario implements Cloneable{
 							}	
 							if (prerrequisitos.size()!= 0)
 							{
-								error = "";
-								error = "Se está intentando registrar "+ codigo +" sin haber inscrito todos los prerrequisitos previamente. Prerequisitos(s) sin inscribir: " + String.join(", ", prerrequisitos);
-								throw new BannerException("Se está intentando registrar "+ codigo +" sin haber cumplido todos los prerrequisitos previamente.\nPrerrequisito(s) sin cumplir:\n" + String.join("\n", prerrequisitos));
+								throw new BannerException("Se está intentando registrar "+ codigo +" sin haber inscrito todos los prerrequisitos previamente. Prerequisitos(s) sin inscribir: " + String.join(", ", prerrequisitos));
 							}
 
 						}
@@ -144,9 +140,7 @@ public class Estudiante extends Usuario implements Cloneable{
 							}
 								if (correquisitos.size()!= 0)
 								{
-									error = "";
-									error = "Se está intentando registrar "+ codigo +" sin haber inscrito todos los correquisitos previamente. Correquisitos(s) sin inscribir: " + String.join(", ", correquisitos);
-									throw new BannerException("Se está intentando registrar "+ codigo +" sin haber inscrito todos los correquisitos previamente.\nCorrequisitos(s) sin inscribir:\n" + String.join("\n", correquisitos));
+									throw new BannerException("Se está intentando registrar "+ codigo +" sin haber inscrito todos los correquisitos previamente. Correquisitos(s) sin inscribir: " + String.join(", ", correquisitos));
 								}
 							}
 						}
@@ -330,8 +324,6 @@ public class Estudiante extends Usuario implements Cloneable{
 		}
 		else
 		{
-			error = "";
-			error = codigo;
 			throw new BannerException(codigo);
 		}
 
@@ -485,12 +477,6 @@ public class Estudiante extends Usuario implements Cloneable{
 		cloned.setCursosTomadosString((ArrayList<String>)cloned.darCursosTomadosString().clone());
 		return cloned;
 	}
-
-	public String darErrorString()
-	{
-		return error;
-	}
-
 	public void retirarMateria(MateriaEstudiante materia)
 	{
 		cursosTomados.remove(materia);
@@ -510,6 +496,5 @@ public class Estudiante extends Usuario implements Cloneable{
 		this.tomadosString = "";
 		this.cursosTomadosArrayString = null;
 		this.cursosTomadosArrayString = new ArrayList<>();
-		this.error = "";
 	}
 }
