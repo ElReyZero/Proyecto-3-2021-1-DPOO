@@ -150,17 +150,25 @@ public class VentanaEstudiante extends JPanel implements ActionListener
 		}
         else if(boton == cargarPensum)
 		{
-            File archivo = null;
-		    JFileChooser fc = new JFileChooser();
-		    fc.setDialogTitle("Seleccione el archivo con el pensum");
-			fc.setFileFilter(new FiltroCSV());
-            int respuesta = fc.showOpenDialog(this);
-            if(respuesta == JFileChooser.APPROVE_OPTION)
+            if (pensum == null)
             {
-                archivo = fc.getSelectedFile();
-                sistema.cargarPensumAnalizador(archivo);
-                pensum = sistema.darPensum();
-            }           
+                File archivo = null;
+                JFileChooser fc = new JFileChooser();
+                fc.setDialogTitle("Seleccione el archivo con el pensum");
+                fc.setFileFilter(new FiltroCSV());
+                int respuesta = fc.showOpenDialog(this);
+                if(respuesta == JFileChooser.APPROVE_OPTION)
+                {
+                    archivo = fc.getSelectedFile();
+                    sistema.cargarPensumAnalizador(archivo);
+                    pensum = sistema.darPensum();
+                }
+            }
+            else
+            {
+                
+            }
+                       
         }
         else if(boton == registrarMaterias)
         {
