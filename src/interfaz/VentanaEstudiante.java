@@ -166,10 +166,27 @@ public class VentanaEstudiante extends JPanel implements ActionListener
             }
             else
             {
-                
+                File archivo_pensumNuevo = null;
+			    JFileChooser fc = new JFileChooser("./data");
+			    fc.setDialogTitle("Seleccione el archivo con el programa reformado");
+			    fc.setFileFilter(new FiltroCSV());
+			    int resultado = fc.showOpenDialog(this);
+			    if (resultado == JFileChooser.APPROVE_OPTION)
+			{
+				archivo_pensumNuevo = fc.getSelectedFile();
+
+				File archivo_homologacion = null;
+				fc = new JFileChooser("./data");
+				fc.setDialogTitle("Seleccione el archivo con las homologaciones entre los programas");
+				fc.setFileFilter(new FiltroCSV());
+				resultado = fc.showOpenDialog(this);
+				if (resultado == JFileChooser.APPROVE_OPTION)
+				{
+					archivo_homologacion = fc.getSelectedFile();
+				}
             }
-                       
-        }
+        }       
+            }
         else if(boton == registrarMaterias)
         {
 
