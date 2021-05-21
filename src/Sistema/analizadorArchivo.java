@@ -431,14 +431,14 @@ public class analizadorArchivo {
 	public Estudiante cargarReglasPrograma(File reglas, Estudiante estudiante, Pensum nuevoPensum) throws BannerException, IOException, CloneNotSupportedException
 	{
 		BufferedReader br = new BufferedReader(new FileReader(reglas));
-        String linea = br.readLine();					
+		br.readLine();				
+        String linea = br.readLine();
 		Estudiante copia = estudiante.clone();
 		while (linea != null)
 		{
 			String[] partes = linea.split(";");
 			String materiaOld = partes[0];
 			String materiaNueva = partes[1];
-			System.out.println(materiaOld);
 			for (MateriaEstudiante old : estudiante.darCursosTomados())
 			{
 				if(old.darCodigo().contains(materiaOld))
