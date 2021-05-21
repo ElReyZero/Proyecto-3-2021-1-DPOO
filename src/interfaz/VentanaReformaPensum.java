@@ -26,7 +26,6 @@ public class VentanaReformaPensum extends JPanel implements ActionListener
         copia = pCopia;
         ventanaMain = pVentanaMain;
         sistema = pSistema;
-        volver = new JButton("Volver");
         nuevo = new JButton("Acogerme al nuevo pensum");
         viejo = new JButton("Quedarme con el pensum antiguo");
         setLayout(new BorderLayout());
@@ -50,9 +49,13 @@ public class VentanaReformaPensum extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) 
     {
-        if(e.getSource() == volver)
+        if(e.getSource() == viejo)
         {
             ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante));
         }
+        else if(e.getSource()== nuevo)
+        {
+            ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , copia));
+        } 
     }
 }
