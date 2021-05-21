@@ -182,7 +182,6 @@ public class VentanaEstudiante extends JPanel implements ActionListener
 				    if (resultado == JFileChooser.APPROVE_OPTION)
 				    {
 					    archivo_homologacion = fc.getSelectedFile();
-                        
 				    }
                 }
         }       
