@@ -427,4 +427,59 @@ public class analizadorArchivo {
 		
 		escribirLog(error);
 	}
+
+	public Estudiante cargarReglasPrograma(File reglas, Estudiante estudiante, Pensum nuevoPensum)
+	{
+		try
+			{
+				BufferedReader br = new BufferedReader(new FileReader(reglas));
+                String linea = br.readLine();
+				try 
+					{						
+						Estudiante copia = estudiante.clone();
+						while (linea != null)
+						{
+							String[] partes = linea.split(";");
+							String materiaOld = partes[0];
+							String materiaNueva = partes[1];
+							for (MateriaEstudiante old : estudiante.darCursosTomados())
+							{
+								if(old.darCodigo().contains(materiaOld))
+								{
+									copia.inscribirHomologado(materiaNueva, nuevoPensum, old.darNota(), old.darSemestre());
+									break;
+								}
+							}	
+						}	
+						br.close();					
+						return copia;
+					}
+					catch (Exception e)
+					{
+						escribirErrorLog(e);
+						e.printStackTrace();
+						return null;
+					}
+			}
+			catch (FileNotFoundException e)
+			{
+				System.out.println("No encontré el archivo ...");
+				escribirErrorLog(e);
+				e.printStackTrace();
+				return null;
+			}
+			catch (IOException e)
+			{
+				System.out.println("Error de lectura ...");
+				escribirErrorLog(e);
+				e.printStackTrace();
+				return null;
+			}
+	}
+
+
+	public void cargarCartelera(File cartelera)
+	{
+
+	}
 }

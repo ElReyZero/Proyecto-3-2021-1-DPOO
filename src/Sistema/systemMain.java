@@ -57,5 +57,10 @@ public class systemMain
     {
     	analizador.escribirErrorLog(e);
     }
+
+    public Estudiante cargarReglasPrograma(File reglas, Estudiante estudiante, Pensum nuevoPensum)
+    {
+        return analizador.cargarReglasPrograma(reglas, estudiante, nuevoPensum);
+    }
 }
 
