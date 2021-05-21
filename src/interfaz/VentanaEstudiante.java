@@ -40,6 +40,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
 		private JButton registrarMaterias;
 		private JButton candidaturaGrado;
 		private JButton cargarPensum;
+        private JButton cargarCartelera;
 		private JButton guardarArchivo;
 		private JButton cargarArchivo;
         private JButton validarRequisitos;
@@ -122,11 +123,15 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         guardarArchivo.addActionListener(this);
         cargarArchivo = new JButton("Cargar materias desde archivo");
         cargarArchivo.addActionListener(this);
+        cargarCartelera = new JButton("Cargar Cartelera");
+        cargarCartelera.addActionListener(this);
         panelCarga.add(cargarPensum);
         panelCarga.add(Box.createRigidArea(new Dimension(10,0)));
         panelCarga.add(guardarArchivo);
         panelCarga.add(Box.createRigidArea(new Dimension(10,0)));
         panelCarga.add(cargarArchivo);
+        panelCarga.add(Box.createRigidArea(new Dimension(10,0)));
+        panelCarga.add(cargarCartelera);
         panelCarga.add(Box.createRigidArea(new Dimension(0,150)));
         guardarArchivo.setAlignmentX(CENTER_ALIGNMENT);
         cargarArchivo.setAlignmentX(CENTER_ALIGNMENT);
@@ -148,6 +153,18 @@ public class VentanaEstudiante extends JPanel implements ActionListener
 		{
 			ventanaMain.resetMain();
 		}
+        else if(boton == cargarCartelera)
+        {
+            File Cartelera = null;
+            JFileChooser fc = new JFileChooser();
+            fc.setDialogTitle("Seleccione el archivo con la cartelera");
+            fc.setFileFilter(new FiltroCSV());
+            int respuesta = fc.showOpenDialog(this);
+            if(respuesta == JFileChooser.APPROVE_OPTION)
+                {
+                    Cartelera = fc.getSelectedFile();
+                }
+        }
         else if(boton == cargarPensum)
 		{
             if (pensum == null)
@@ -182,6 +199,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
 				    if (resultado == JFileChooser.APPROVE_OPTION)
 				    {
 					    archivo_homologacion = fc.getSelectedFile();
+                        
 				    }
                 }
         }       
