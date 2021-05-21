@@ -10,9 +10,20 @@ public class Cartelera
     {
         cartelera = pCartelera;
     }
-    
+
     public ArrayList<String> darCartelera()
     {
          return cartelera;
+    }
+    public boolean darDisponibilidad(String codigo)
+    {
+        if(cartelera.contains(codigo))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
 }
