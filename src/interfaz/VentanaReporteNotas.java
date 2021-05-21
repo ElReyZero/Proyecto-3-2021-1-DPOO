@@ -48,7 +48,7 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
         {
             add(Volver(),BorderLayout.SOUTH);
         }
-        setSize(700, 500);
+        setSize(1000, 900);
 		setVisible(true);
     }
     public JPanel PanelInformacion(Estudiante estudiante)

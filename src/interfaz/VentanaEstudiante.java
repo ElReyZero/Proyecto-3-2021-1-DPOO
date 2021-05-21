@@ -70,7 +70,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         add(panelOpciones,BorderLayout.CENTER);
         JPanel volver = Volver();
         add(volver,BorderLayout.SOUTH);
-        setSize(700, 500);
+        setSize(1000, 900);
 		setVisible(true);
         pensum = sistema.darPensum();
     }

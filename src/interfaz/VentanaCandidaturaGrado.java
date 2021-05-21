@@ -46,7 +46,7 @@ public class VentanaCandidaturaGrado extends JPanel implements ActionListener
         add(PanelInformacion(estudiante,pensum), BorderLayout.WEST);
         add(PanelMaterias(estudiante),BorderLayout.EAST);
         add(Volver(),BorderLayout.SOUTH);
-        setSize(700, 500);
+        setSize(1000, 900);
 		setVisible(true);
     }
     public JPanel PanelInformacion(Estudiante estudiante,Pensum pensum)

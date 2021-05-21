@@ -66,7 +66,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		main.add(panelTitulo, BorderLayout.NORTH);
 		main.add(panelBotones, BorderLayout.CENTER);
 		add(main);
-		setSize(700, 500);
+		setSize(1000, 900);
 		sistema = new systemMain();
 	}
 	

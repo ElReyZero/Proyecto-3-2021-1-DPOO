@@ -65,7 +65,7 @@ public class VentanaPlaneador extends JPanel implements ActionListener
         add(PanelOpciones(),BorderLayout.CENTER);
         add(PanelPlan(estudiante),BorderLayout.EAST);
         add(Volver(),BorderLayout.SOUTH);
-        setSize(700, 500);
+        setSize(1000, 900);
 		setVisible(true);
     }
     public JPanel PanelOpciones()
