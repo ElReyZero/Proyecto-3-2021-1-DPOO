@@ -31,7 +31,7 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
     private boolean esCoordinador;
     private CoordinadorAcademico coordinador;
 
-    public VentanaReporteNotas(VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante, boolean pTodo, Estudiante pRespaldo, boolean pEsCoordinador, CoordinadorAcademico pCoordinador)
+    public VentanaReporteNotas(VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante, boolean pTodo, Estudiante pRespaldo, boolean pEsCoordinador, CoordinadorAcademico pCoordinador, boolean pVolver)
     {
         ventanaMain = pVentanaMain;
         sistema = pSistema;
@@ -44,7 +44,10 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
         ///Botones y paneles
         add(PanelInformacion(estudiante), BorderLayout.NORTH);
         add(PanelMateriasVistas(estudiante),BorderLayout.CENTER);
-        add(Volver(),BorderLayout.SOUTH);
+        if(pVolver == true)
+        {
+            add(Volver(),BorderLayout.SOUTH);
+        }
         setSize(700, 500);
 		setVisible(true);
     }
