@@ -261,7 +261,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
                 int ans = JOptionPane.showOptionDialog(this, "¿Quieres generar el reporte para toda tu carrera o un semestre específico?", "Reporte Notas", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
                 if (ans == 0)
                 {
-                    ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, estudiante, true, null, true, coordinador, true));
+                    ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, estudiante, true, null, true, coordinador, true, ""));
                 }
                 else if (ans == 1)
                 {
@@ -292,7 +292,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
                                     }
                                 }
                                 copia.setCursosTomados(lista);
-                                ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, copia, false, estudiante, true, coordinador, true));
+                                ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, copia, false, estudiante, true, coordinador, true, ""));
                             }
                             catch (CloneNotSupportedException exe)
                             {

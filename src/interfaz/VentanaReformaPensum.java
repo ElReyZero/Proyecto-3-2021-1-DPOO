@@ -32,18 +32,18 @@ public class VentanaReformaPensum extends JPanel implements ActionListener
         ///Botones y paneles
         add(panelOld(ventanaMain,sistema,estudiante), BorderLayout.WEST);
         add(panelNew(ventanaMain,sistema,copia),BorderLayout.EAST);
-        add(volver, BorderLayout.SOUTH);
+        //add(volver, BorderLayout.SOUTH);
         setSize(1000, 900);
         setVisible(true);
     }
     public JPanel panelOld(VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante)
     {
-        JPanel old = new VentanaReporteNotas(ventanaMain, sistema, estudiante, true, null, false, null, false);
+        JPanel old = new VentanaReporteNotas(ventanaMain, sistema, estudiante, true, null, false, null, false, "Avance con pensum viejo:");
         return old;
     }
     public JPanel panelNew(VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pCopia)
     {
-        JPanel reformed = new VentanaReporteNotas(ventanaMain, sistema, copia, true, null, false, null, false);
+        JPanel reformed = new VentanaReporteNotas(ventanaMain, sistema, copia, true, null, false, null, false, "Avance con pensum nuevo:");
         return reformed;
     }
     @Override
