@@ -438,17 +438,18 @@ public class analizadorArchivo {
 			String[] partes = linea.split(";");
 			String materiaOld = partes[0];
 			String materiaNueva = partes[1];
+			System.out.println(materiaOld);
 			for (MateriaEstudiante old : estudiante.darCursosTomados())
 			{
 				if(old.darCodigo().contains(materiaOld))
 				{
+					copia.retirarMateria(old);
 					boolean homologar =	copia.inscribirHomologado(materiaNueva, nuevoPensum, old.darNota(), old.darSemestre());
 					if (homologar == false)
 					{
 						br.close();	
 						throw new BannerException("Error en la homologación, materia a homologar no está en el pensum.");
 					}
-					break;
 				}
 			}
 			linea = br.readLine();
