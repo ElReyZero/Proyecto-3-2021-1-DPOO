@@ -204,12 +204,14 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                         {
 							copia = sistema.cargarReglasPrograma(archivo_homologacion, estudiante, nuevoPensum);
                             ventanaMain.actualizarMain(new VentanaReformaPensum(ventanaMain, sistema, estudiante, copia));
-						} 
+						}
                         catch (Exception e1)
                         {
                             sistema.escribirException(e1);
                             JOptionPane.showMessageDialog(this, new JLabel(e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
                             e1.printStackTrace();
+                            copia = null;
+                            nuevoPensum = null;
 						}
                         
 				    }
