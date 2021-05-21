@@ -18,9 +18,9 @@ public class systemMain
         analizador = new analizadorArchivo();
     }
 
-    public void cargarPensumAnalizador(File archivo)
+    public Pensum cargarPensumAnalizador(File archivo)
     {
-        analizador.cargarPensum(archivo);
+        return analizador.cargarPensum(archivo);
     }
 
     public Pensum darPensum()

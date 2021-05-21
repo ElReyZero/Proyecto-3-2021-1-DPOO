@@ -160,31 +160,31 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                 if(respuesta == JFileChooser.APPROVE_OPTION)
                 {
                     archivo = fc.getSelectedFile();
-                    sistema.cargarPensumAnalizador(archivo);
-                    pensum = sistema.darPensum();
+                    pensum = sistema.cargarPensumAnalizador(archivo);
                 }
             }
             else
             {
                 File archivo_pensumNuevo = null;
-			    JFileChooser fc = new JFileChooser("./data");
+			    JFileChooser fc = new JFileChooser();
 			    fc.setDialogTitle("Seleccione el archivo con el programa reformado");
 			    fc.setFileFilter(new FiltroCSV());
 			    int resultado = fc.showOpenDialog(this);
 			    if (resultado == JFileChooser.APPROVE_OPTION)
-			{
-				archivo_pensumNuevo = fc.getSelectedFile();
-
-				File archivo_homologacion = null;
-				fc = new JFileChooser("./data");
-				fc.setDialogTitle("Seleccione el archivo con las homologaciones entre los programas");
-				fc.setFileFilter(new FiltroCSV());
-				resultado = fc.showOpenDialog(this);
-				if (resultado == JFileChooser.APPROVE_OPTION)
-				{
-					archivo_homologacion = fc.getSelectedFile();
-				}
-            }
+			    {
+				    archivo_pensumNuevo = fc.getSelectedFile();
+                    Pensum nuevoPensum = sistema.cargarPensumAnalizador(archivo_pensumNuevo);
+				    File archivo_homologacion = null;
+				    fc = new JFileChooser();
+				    fc.setDialogTitle("Seleccione el archivo con las homologaciones entre los programas");
+				    fc.setFileFilter(new FiltroCSV());
+				    resultado = fc.showOpenDialog(this);
+				    if (resultado == JFileChooser.APPROVE_OPTION)
+				    {
+					    archivo_homologacion = fc.getSelectedFile();
+                        
+				    }
+                }
         }       
             }
         else if(boton == registrarMaterias)

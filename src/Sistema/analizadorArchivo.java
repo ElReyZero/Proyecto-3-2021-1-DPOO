@@ -28,7 +28,7 @@ public class analizadorArchivo {
         pensum = null;
     }
     
-    public void cargarPensum(File archivo)
+    public Pensum cargarPensum(File archivo)
     {
         try
 			{
@@ -74,24 +74,28 @@ public class analizadorArchivo {
 				}
 				br.close();
                 pensum = new Pensum(totalcred, archivo.getName(), listaMaterias, materiasString, nivel1, nivel2);
+				return pensum;
 			}
 			catch (FileNotFoundException e)
 			{
 				System.out.println("No encontré el archivo ...");
 				e.printStackTrace();
 				pensum = null;
+				return null;
 			}
 			catch (IOException e)
 			{
 				System.out.println("Error de lectura ...");
 				e.printStackTrace();
 				pensum = null;
+				return null;
 			}
 			catch (NumberFormatException e)
 			{
 				System.out.println("Error en los datos: un número no se pudo convertir a int ...");
 				e.printStackTrace();
 				pensum = null;
+				return null;
 			}
     }
 
@@ -385,6 +389,11 @@ public class analizadorArchivo {
     {
         return pensum;
     }
+
+	public void setPensum(Pensum pPensum)
+	{
+		pensum = pPensum;
+	}
 
 	public String retornarMateriaError(String materia)
 	{

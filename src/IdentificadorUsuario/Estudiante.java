@@ -10,6 +10,7 @@ import Sistema.analizadorArchivo;
 import curriculo.Materia;
 import curriculo.MateriaEstudiante;
 import curriculo.Pensum;
+import funcionalidades.reporteNotas;
 @SuppressWarnings("unchecked")
 
 public class Estudiante extends Usuario implements Cloneable{
@@ -19,6 +20,8 @@ public class Estudiante extends Usuario implements Cloneable{
 	private ArrayList<MateriaEstudiante> cursosTomados;
 	private ArrayList<String> cursosTomadosArrayString;
 	private String tomadosString;
+	private double credsSemestre;
+	private double currentSemestre;
 	
 	//Constructor
 	public Estudiante(String pNombre, String pCodigo, String pCarrera) 
@@ -28,6 +31,8 @@ public class Estudiante extends Usuario implements Cloneable{
 		cursosTomados = new ArrayList<MateriaEstudiante>();
 		cursosTomadosArrayString = new ArrayList<String>();
 		tomadosString = "-----------------------------------\n";
+		credsSemestre = 0;
+		currentSemestre = 0;
 	}
 
 	//Métodos
@@ -44,6 +49,10 @@ public class Estudiante extends Usuario implements Cloneable{
 			{
 				for(Materia current:listaMaterias)
 				{
+					if(current.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, current.darCreditos()) == false))
+					{
+						throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ current.darCodigo() + " Creds con esta materia: " + String.valueOf(current.darCreditos() + credsSemestre));
+					}
 					if (current.darCodigo().contains(codigo) && current.darNivel() >=3 && !codigo.equals("LENG-3999"))
 					{
 						for(int i = 0; pensum.darMateriasNivel1String().size()>i; i++)
@@ -51,7 +60,6 @@ public class Estudiante extends Usuario implements Cloneable{
 							if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel1String().get(i)))
 							{
 								throw new BannerException("Para poder inscribir " + codigo + " necesitas haber inscrito todas las materias de nivel 1");
-								
 							}
 						}	
 					}
@@ -71,6 +79,8 @@ public class Estudiante extends Usuario implements Cloneable{
 						cursosTomados.add(agregada);
 						tomadosString += current.darCodigo()+"\n";
 						cursosTomadosArrayString.add(current.darCodigo());
+						credsSemestre += current.darCreditos();
+						currentSemestre = semestre;
 						return 0;
 						
 					}
@@ -164,6 +174,8 @@ public class Estudiante extends Usuario implements Cloneable{
 							}
 							tomadosString += current.darCodigo()+"\n";
 							cursosTomadosArrayString.add(current.darCodigo());
+							credsSemestre += current.darCreditos();
+							currentSemestre = semestre;
 							return 0;
 						}
 					}
@@ -171,9 +183,12 @@ public class Estudiante extends Usuario implements Cloneable{
 			}
 		else if(codigo.contains("CB"))
 		{
-			
 			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 2,"Electiva CBU " +codigo.charAt(2)+codigo.charAt(3), 0, true, semestre);
 			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+			if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+			{
+				throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+			}
 			cursosTomados.add(agregada);
 			if(tipoE == true)
 				{
@@ -187,12 +202,18 @@ public class Estudiante extends Usuario implements Cloneable{
 				}
 			tomadosString += nuevaMateria.darCodigo()+"\n";
 			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+			credsSemestre += agregada.darCreditos();
+			currentSemestre = semestre;
 			return 0;
 		}
 		else if (codigo.equals("BIOL-3300")||codigo.equals("FISI-1038")||codigo.equals("FISI-1048")||codigo.equals("MATE-1107")||codigo.equals("MATE-2211")||codigo.equals("MATE-2301")||codigo.equals("MATE-2303")||codigo.equals("MATE-2411")||codigo.equals("MATE-3712")||codigo.equals("MBIO-2102")||codigo.equals("QUIM-1105")||codigo.equals("QUIM-1301")||codigo.equals("QUIM-1303")||codigo.equals("QUIM-1510")||codigo.equals("QUIM-2620"))
 		{
 			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 3, "Electiva en Ciencias", 0, true, semestre);
 			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+			if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+			{
+				throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+			}
 			cursosTomados.add(agregada);
 			if(tipoE == true)
 				{
@@ -206,12 +227,18 @@ public class Estudiante extends Usuario implements Cloneable{
 				}
 			tomadosString += nuevaMateria.darCodigo()+"\n";
 			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+			credsSemestre += agregada.darCreditos();
+			currentSemestre = semestre;
 			return 0;
 		}
 		else if(codigo.equals("IBIO-2099")||codigo.equals("IBIO-2240")||codigo.equals("ICYA-1101")||codigo.equals("ICYA-1110")||codigo.equals("ICYA-1116")||codigo.equals("ICYA-1125")||codigo.equals("ICYA-2001")||codigo.equals("ICYA-2401")||codigo.equals("ICYA-2412")||codigo.equals("IELE-1002")||codigo.equals("IELE-1006")||codigo.equals("IELE-1010")||codigo.equals("IELE-1502")||codigo.equals("IELE-2010")||codigo.equals("IELE-2210")||codigo.equals("IELE-2300")||codigo.equals("IELE-2500")||codigo.equals("IIND-2103")||codigo.equals("IIND-2104")||codigo.equals("IIND-2107")||codigo.equals("IIND-2202")||codigo.equals("IIND-2301")||codigo.equals("IIND-2400")||codigo.equals("IMEC-1001")|codigo.equals("IMEC-1330")||codigo.equals("IMEC-1410")||codigo.equals("IMEC-1503")||codigo.equals("IQUI-2010")||codigo.equals("IQUI-2020")||codigo.equals("IQUI-2101")||codigo.equals("IQUI-2200"))
 		{
 				Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 3, "Electiva Ingeniería", 0, true, semestre);
 				MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+				if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+				{
+					throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+				}
 				cursosTomados.add(agregada);
 				if(tipoE == true)
 				{
@@ -225,6 +252,8 @@ public class Estudiante extends Usuario implements Cloneable{
 				}
 				tomadosString += nuevaMateria.darCodigo()+"\n";
 				cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+				credsSemestre += agregada.darCreditos();
+				currentSemestre = semestre;
 				return 0;
 		}
 		else if(codigo.equals("IIND-4115")||codigo.equals("IIND-4123")||codigo.equals("MATE-3133")||codigo.equals("IELE-4231")||codigo.equals("FISI-3024")||codigo.equals("IELE-3338")||codigo.equals("IELE-4014")||codigo.equals("MATE-3102")||codigo.equals("MATE-4527")||codigo.equals("IBIO-3470")||codigo.equals("MATE-3134")||codigo.equals("IBIO-4680")||codigo.equals("IBIO-4490") || codigo.equals("ISIS-3991") || codigo.equals("ARTI-4202") || codigo.equals("ARTI-4205") || codigo.equals("BCOM-4104") || codigo.equals("MBIT-4102") || codigo.equals("MBIT-4201") || codigo.equals("MBIT-4202") || codigo.equals("MBIT-4203") || codigo.equals("MBIT-4210") || codigo.equals("MBIT-4213") || codigo.equals("MBIT-4214") || codigo.equals("MSIN-4101") || codigo.equals("MSIN-4206") || codigo.equals("MINE-4102") || codigo.equals("MINE-4103") || codigo.equals("MINE-4201") || codigo.equals("MINE-4206") || codigo.equals("MISO-4101"))
@@ -254,6 +283,10 @@ public class Estudiante extends Usuario implements Cloneable{
 			}
 			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", creds, "Electiva Profesional", 4, true, semestre);
 			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+			if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+			{
+				throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+			}
 			cursosTomados.add(agregada);
 			if(tipoE == true)
 			{
@@ -267,6 +300,8 @@ public class Estudiante extends Usuario implements Cloneable{
 			}
 			tomadosString += nuevaMateria.darCodigo()+"\n";
 			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+			credsSemestre += agregada.darCreditos();
+			currentSemestre = semestre;
 			return 0;
 		}				
 	else if(codigo.contains("ISIS-4"))
@@ -287,6 +322,10 @@ public class Estudiante extends Usuario implements Cloneable{
 			}
 			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 2, "Electiva Profesional", 0, true, semestre);
 			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+			if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+			{
+				throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+			}
 			cursosTomados.add(agregada);
 			if(tipoE == true)
 			{
@@ -300,6 +339,8 @@ public class Estudiante extends Usuario implements Cloneable{
 			}
 			tomadosString += nuevaMateria.darCodigo()+"\n";
 			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+			credsSemestre += agregada.darCreditos();
+			currentSemestre = semestre;
 			return 0;
 		}
 		
@@ -307,6 +348,10 @@ public class Estudiante extends Usuario implements Cloneable{
 		{
 			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", clecreds, "Curso de Libre Eleccion", 0, true, semestre);
 			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+			if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+			{
+				throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+			}
 			cursosTomados.add(agregada);
 			if(tipoE == true)
 			{
@@ -320,6 +365,8 @@ public class Estudiante extends Usuario implements Cloneable{
 			}
 			tomadosString += nuevaMateria.darCodigo()+"\n";					
 			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+			credsSemestre += agregada.darCreditos();
+			currentSemestre = semestre;
 			return 0;
 		}
 		else
@@ -356,10 +403,16 @@ public class Estudiante extends Usuario implements Cloneable{
 						}
 					}
 					MateriaEstudiante agregada = revisarAprobado(mat, nota, semestre);
+					if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+					{
+						throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+					}
 					agregada.setCredits(creds);
 					cursosTomados.add(agregada);
 					tomadosString += agregada.darCodigo()+"\n";
 					cursosTomadosArrayString.add(agregada.darCodigo());
+					credsSemestre += agregada.darCreditos();
+					currentSemestre = semestre;
 					return 0;
 				}
 				else
@@ -390,10 +443,16 @@ public class Estudiante extends Usuario implements Cloneable{
 							}
 						}
 						MateriaEstudiante agregada = revisarAprobado(mat, nota, semestre);
+						if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+						{
+							throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+						}
 						agregada.setCredits(creds);
 						cursosTomados.add(agregada);
 						tomadosString += agregada.darCodigo()+"\n";
 						cursosTomadosArrayString.add(agregada.darCodigo());
+						credsSemestre += agregada.darCreditos();
+						currentSemestre = semestre;
 						return 0;
 					}
 					else
@@ -489,6 +548,16 @@ public class Estudiante extends Usuario implements Cloneable{
 		return tomadosString;
 	}
 
+	public double darCredsSemestre()
+	{
+		return credsSemestre;
+	}
+
+	public double darCurrentSemestre()
+	{
+		return currentSemestre;
+	}
+
 	public void borrarDatosEstudiante()
 	{
 		this.cursosTomados = null;
@@ -496,5 +565,29 @@ public class Estudiante extends Usuario implements Cloneable{
 		this.tomadosString = "";
 		this.cursosTomadosArrayString = null;
 		this.cursosTomadosArrayString = new ArrayList<>();
+		this.credsSemestre = 0;
+		this.currentSemestre = 0;
+	}
+
+	public boolean revisarExtracreditacion(double semestreNuevo, double credsActual)
+	{
+		if (semestreNuevo != currentSemestre)
+		{
+			credsSemestre = 0;
+		}
+		String pga = reporteNotas.promedioPGA(this);
+		Double doublePGA = Double.parseDouble(pga);
+		if (credsActual+ credsSemestre > 25)
+		{
+			return false;
+		}
+		else if (doublePGA < 4 && (credsSemestre + credsActual > 20))
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}	
 	}
 }
