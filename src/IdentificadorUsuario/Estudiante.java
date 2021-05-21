@@ -591,7 +591,7 @@ public class Estudiante extends Usuario implements Cloneable{
 		}	
 	}
 
-	public boolean inscribirHomologado(String codigoMat, Pensum pensum, String nota, double semestre) throws BannerException
+	public boolean inscribirHomologado(String codigoMat, Pensum pensum, String nota, double semestre)
 	{
 		for (Materia current : pensum.darMateriasPensum())
 		{
@@ -606,6 +606,6 @@ public class Estudiante extends Usuario implements Cloneable{
 				return true;
 			}
 		}
-		throw new BannerException("Error en la homologación, materia a homologar no está en el pensum.");
+		return false;
 	}
 }

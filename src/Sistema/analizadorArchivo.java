@@ -428,53 +428,33 @@ public class analizadorArchivo {
 		escribirLog(error);
 	}
 
-	public Estudiante cargarReglasPrograma(File reglas, Estudiante estudiante, Pensum nuevoPensum)
+	public Estudiante cargarReglasPrograma(File reglas, Estudiante estudiante, Pensum nuevoPensum) throws BannerException, IOException, CloneNotSupportedException
 	{
-		try
+		BufferedReader br = new BufferedReader(new FileReader(reglas));
+        String linea = br.readLine();					
+		Estudiante copia = estudiante.clone();
+		while (linea != null)
+		{
+			String[] partes = linea.split(";");
+			String materiaOld = partes[0];
+			String materiaNueva = partes[1];
+			for (MateriaEstudiante old : estudiante.darCursosTomados())
 			{
-				BufferedReader br = new BufferedReader(new FileReader(reglas));
-                String linea = br.readLine();
-				try 
-					{						
-						Estudiante copia = estudiante.clone();
-						while (linea != null)
-						{
-							String[] partes = linea.split(";");
-							String materiaOld = partes[0];
-							String materiaNueva = partes[1];
-							for (MateriaEstudiante old : estudiante.darCursosTomados())
-							{
-								if(old.darCodigo().contains(materiaOld))
-								{
-									copia.inscribirHomologado(materiaNueva, nuevoPensum, old.darNota(), old.darSemestre());
-									break;
-								}
-							}	
-						}	
-						br.close();					
-						return copia;
-					}
-					catch (Exception e)
+				if(old.darCodigo().contains(materiaOld))
+				{
+					boolean homologar =	copia.inscribirHomologado(materiaNueva, nuevoPensum, old.darNota(), old.darSemestre());
+					if (homologar == false)
 					{
-						escribirErrorLog(e);
-						e.printStackTrace();
-						return null;
+						br.close();	
+						throw new BannerException("Error en la homologación, materia a homologar no está en el pensum.");
 					}
+					break;
+				}
 			}
-			catch (FileNotFoundException e)
-			{
-				System.out.println("No encontré el archivo ...");
-				escribirErrorLog(e);
-				e.printStackTrace();
-				return null;
-			}
-			catch (IOException e)
-			{
-				System.out.println("Error de lectura ...");
-				escribirErrorLog(e);
-				e.printStackTrace();
-				return null;
-			}
+			linea = br.readLine();
+		}	
+		br.close();					
+		return copia;		
 	}
 
 

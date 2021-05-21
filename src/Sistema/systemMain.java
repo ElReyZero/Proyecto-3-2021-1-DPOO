@@ -1,6 +1,7 @@
 package Sistema;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import IdentificadorUsuario.CoordinadorAcademico;
 import IdentificadorUsuario.Estudiante;
@@ -58,7 +59,7 @@ public class systemMain
     	analizador.escribirErrorLog(e);
     }
 
-    public Estudiante cargarReglasPrograma(File reglas, Estudiante estudiante, Pensum nuevoPensum)
+    public Estudiante cargarReglasPrograma(File reglas, Estudiante estudiante, Pensum nuevoPensum) throws BannerException, IOException, CloneNotSupportedException
     {
         return analizador.cargarReglasPrograma(reglas, estudiante, nuevoPensum);
     }
