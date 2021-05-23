@@ -1,5 +1,7 @@
 package interfaz;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -8,6 +10,7 @@ import Sistema.systemMain;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 public class VentanaReformaPensum extends JPanel implements ActionListener
 {
@@ -26,14 +29,27 @@ public class VentanaReformaPensum extends JPanel implements ActionListener
         ventanaMain = pVentanaMain;
         sistema = pSistema;
         nuevo = new JButton("Acogerme al nuevo pensum");
+        nuevo.addActionListener(this);
         viejo = new JButton("Quedarme con el pensum antiguo");
+        viejo.addActionListener(this);
         setLayout(new BorderLayout());
         ///Botones y paneles
         add(panelOld(ventanaMain,sistema,estudiante), BorderLayout.WEST);
         add(panelNew(ventanaMain,sistema,copia),BorderLayout.EAST);
+        add(PanelDesicion(nuevo,viejo),BorderLayout.SOUTH);
         //add(volver, BorderLayout.SOUTH);
         setSize(1000, 900);
         setVisible(true);
+    }
+    public JPanel PanelDesicion(JButton nuevo, JButton viejo)
+    {
+        JPanel panelDesicion = new JPanel();
+        panelDesicion.setLayout(new BoxLayout(panelDesicion,BoxLayout.LINE_AXIS));
+        panelDesicion.add(Box.createRigidArea(new Dimension(120,0)));
+        panelDesicion.add(viejo);
+        panelDesicion.add(Box.createRigidArea(new Dimension(280,0)));
+        panelDesicion.add(nuevo);
+        return panelDesicion;
     }
     public JPanel panelOld(VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante)
     {
