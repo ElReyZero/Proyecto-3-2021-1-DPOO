@@ -19,7 +19,7 @@ Lenguajes y Máquinas;ISIS-1106;ISIS-1104&(ISIS-1205|ISIS-1209|ISIS-1225);LENG-1
 Diseño y Programación Orientada a Objetos;ISIS-1226;ISIS-1225;N/A;3;1;Curso Obligatorio;true;3
 Requisito Lectura Inglés;LENG-2999;N/A;N/A;0;2;Req. Inglés;true;3
 Fundamentos de Infraestructura Tecnológica;ISIS-1304;ISIS-1205|ISIS-1209|ISIS-1225;N/A;3;1;Curso Obligatorio;true;3
-Biología Celular TEO|Química;MBIO-1100|QUIM-1003;N/A;N/A;3;1;Curso Obligatorio;true;4
+Biología Celular TEO|Química;MBIO-1100|QUIM-1103;N/A;N/A;3;1;Curso Obligatorio;true;4
 Cálculo Vectorial;MATE-1207;MATE-1105&MATE-1214;N/A;3;1;Curso Obligatorio;true;4
 Diseño y Análisis de Algoritmos ;ISIS-1105;(ISIS-1104|MATE-1102)&(ISIS-1206|ISIS-1226)&MATE-1105;N/A;3;1;Curso Obligatorio;true;4
 Sistemas Transaccionales;ISIS-2304;ISIS-1206|ISIS-1226;N/A;3;2;Curso Obligatorio;true;4

@@ -464,12 +464,13 @@ public class analizadorArchivo {
 		BufferedReader br = new BufferedReader(new FileReader(cartelera));
 		br.readLine();
 		br.readLine();
+		br.readLine();
 		ArrayList<String> listaCartelera = new ArrayList<>();
 		String linea = br.readLine();
-		while (linea != null)
+		while (!linea.contains("**** Fin datos ****"))
 		{
 			String[] partes = linea.split(";");
-			String codigo = partes[4];
+			String codigo = partes[4].replaceAll(" ", "");
 			if (!listaCartelera.contains(codigo))
 			{
 				listaCartelera.add(codigo);

@@ -43,9 +43,13 @@ public class Estudiante extends Usuario implements Cloneable{
 			throw new BannerException("El código de materia "+codigo+" no está escrito en un formato adecuado. Formato: AAAA-XXXX");
 		}
 		var listaMaterias = pensum.darMateriasPensum();
-		String matString = pensum.darMateriasString();
+		ArrayList<String> materiasCart = pensum.darCarteleras().get(semestre);
+		if (materiasCart == null)
+		{
+			throw new BannerException("No existe/no ha sido cargado el semestre " + semestre + " dentro de las carteleras cargadas");
+		} 
 		if(!tomadosString.contains(codigo))
-		{	if(matString.contains(codigo))
+		{	if(materiasCart.contains(codigo))
 			{
 				for(Materia current:listaMaterias)
 				{
@@ -180,288 +184,320 @@ public class Estudiante extends Usuario implements Cloneable{
 						}
 					}
 				}
-			}
-		else if(codigo.contains("CB"))
-		{
-			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 2,"Electiva CBU " +codigo.charAt(2)+codigo.charAt(3), 0, true, semestre);
-			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
-			if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
-			{
-				throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
-			}
-			cursosTomados.add(agregada);
-			if(tipoE == true)
+				if(codigo.contains("CB"))
 				{
-					String tipo = agregada.darTipoMateria() + "- Tipo E";
-					agregada.setType(tipo);
-				}
-			if(epsilon == true)
-				{
-					String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
-					agregada.setType(tipo);
-				}
-			tomadosString += nuevaMateria.darCodigo()+"\n";
-			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
-			credsSemestre += agregada.darCreditos();
-			currentSemestre = semestre;
-			return 0;
-		}
-		else if (codigo.equals("BIOL-3300")||codigo.equals("FISI-1038")||codigo.equals("FISI-1048")||codigo.equals("MATE-1107")||codigo.equals("MATE-2211")||codigo.equals("MATE-2301")||codigo.equals("MATE-2303")||codigo.equals("MATE-2411")||codigo.equals("MATE-3712")||codigo.equals("MBIO-2102")||codigo.equals("QUIM-1105")||codigo.equals("QUIM-1301")||codigo.equals("QUIM-1303")||codigo.equals("QUIM-1510")||codigo.equals("QUIM-2620"))
-		{
-			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 3, "Electiva en Ciencias", 0, true, semestre);
-			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
-			if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
-			{
-				throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
-			}
-			cursosTomados.add(agregada);
-			if(tipoE == true)
-				{
-					String tipo = agregada.darTipoMateria() + "- Tipo E";
-					agregada.setType(tipo);
-				}
-			if(epsilon == true)
-				{
-					String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
-					agregada.setType(tipo);
-				}
-			tomadosString += nuevaMateria.darCodigo()+"\n";
-			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
-			credsSemestre += agregada.darCreditos();
-			currentSemestre = semestre;
-			return 0;
-		}
-		else if(codigo.equals("IBIO-2099")||codigo.equals("IBIO-2240")||codigo.equals("ICYA-1101")||codigo.equals("ICYA-1110")||codigo.equals("ICYA-1116")||codigo.equals("ICYA-1125")||codigo.equals("ICYA-2001")||codigo.equals("ICYA-2401")||codigo.equals("ICYA-2412")||codigo.equals("IELE-1002")||codigo.equals("IELE-1006")||codigo.equals("IELE-1010")||codigo.equals("IELE-1502")||codigo.equals("IELE-2010")||codigo.equals("IELE-2210")||codigo.equals("IELE-2300")||codigo.equals("IELE-2500")||codigo.equals("IIND-2103")||codigo.equals("IIND-2104")||codigo.equals("IIND-2107")||codigo.equals("IIND-2202")||codigo.equals("IIND-2301")||codigo.equals("IIND-2400")||codigo.equals("IMEC-1001")|codigo.equals("IMEC-1330")||codigo.equals("IMEC-1410")||codigo.equals("IMEC-1503")||codigo.equals("IQUI-2010")||codigo.equals("IQUI-2020")||codigo.equals("IQUI-2101")||codigo.equals("IQUI-2200"))
-		{
-				Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 3, "Electiva Ingeniería", 0, true, semestre);
-				MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
-				if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
-				{
-					throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
-				}
-				cursosTomados.add(agregada);
-				if(tipoE == true)
-				{
-					String tipo = agregada.darTipoMateria() + "- Tipo E";
-					agregada.setType(tipo);
-				}
-				if(epsilon == true)
-				{
-					String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
-					agregada.setType(tipo);
-				}
-				tomadosString += nuevaMateria.darCodigo()+"\n";
-				cursosTomadosArrayString.add(nuevaMateria.darCodigo());
-				credsSemestre += agregada.darCreditos();
-				currentSemestre = semestre;
-				return 0;
-		}
-		else if(codigo.equals("IIND-4115")||codigo.equals("IIND-4123")||codigo.equals("MATE-3133")||codigo.equals("IELE-4231")||codigo.equals("FISI-3024")||codigo.equals("IELE-3338")||codigo.equals("IELE-4014")||codigo.equals("MATE-3102")||codigo.equals("MATE-4527")||codigo.equals("IBIO-3470")||codigo.equals("MATE-3134")||codigo.equals("IBIO-4680")||codigo.equals("IBIO-4490") || codigo.equals("ISIS-3991") || codigo.equals("ARTI-4202") || codigo.equals("ARTI-4205") || codigo.equals("BCOM-4104") || codigo.equals("MBIT-4102") || codigo.equals("MBIT-4201") || codigo.equals("MBIT-4202") || codigo.equals("MBIT-4203") || codigo.equals("MBIT-4210") || codigo.equals("MBIT-4213") || codigo.equals("MBIT-4214") || codigo.equals("MSIN-4101") || codigo.equals("MSIN-4206") || codigo.equals("MINE-4102") || codigo.equals("MINE-4103") || codigo.equals("MINE-4201") || codigo.equals("MINE-4206") || codigo.equals("MISO-4101"))
-		{
-			for(int i = 0; pensum.darMateriasNivel1String().size()>i; i++)
-				{
-					if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel1String().get(i)))
-					{
-						throw new BannerException("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 1. Error: (Restricción de Nivel)");
-					}
-				}
-			for(int i = 0; pensum.darMateriasNivel2String().size()>i; i++)
-			{
-				if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel2String().get(i)))
-					{
-						throw new BannerException("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 2. Error: (Restricción de Nivel)");
-					}
-			}
-			double creds = 3;
-			if(codigo.equals("ISIS-3991"))
-			{
-				creds = 6;
-			}
-			else if (codigo.equals("ARTI-4202") || codigo.equals("ARTI-4205") || codigo.equals("BCOM-4104") || codigo.equals("MBIT-4102") || codigo.equals("MBIT-4201") || codigo.equals("MBIT-4202") || codigo.equals("MBIT-4203") || codigo.equals("MBIT-4210") || codigo.equals("MBIT-4213") || codigo.equals("MBIT-4214") || codigo.equals("MSIN-4101") || codigo.equals("MSIN-4206") || codigo.equals("MINE-4102") || codigo.equals("MINE-4103") || codigo.equals("MINE-4201") || codigo.equals("MINE-4206") || codigo.equals("MISO-4101"))
-			{
-				creds = 4;
-			}
-			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", creds, "Electiva Profesional", 4, true, semestre);
-			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
-			if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
-			{
-				throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
-			}
-			cursosTomados.add(agregada);
-			if(tipoE == true)
-			{
-				String tipo = agregada.darTipoMateria() + "- Tipo E";
-				agregada.setType(tipo);
-			}
-			if(epsilon == true)
-			{
-				String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
-				agregada.setType(tipo);
-			}
-			tomadosString += nuevaMateria.darCodigo()+"\n";
-			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
-			credsSemestre += agregada.darCreditos();
-			currentSemestre = semestre;
-			return 0;
-		}				
-	else if(codigo.contains("ISIS-4"))
-		{
-			for(int i = 0; pensum.darMateriasNivel1String().size()>i; i++)
-				{
-					if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel1String().get(i)))
-					{
-						throw new BannerException("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 1. Error: (Restricción de Nivel)");
-					}
-				}
-			for(int i = 0; pensum.darMateriasNivel2String().size()>i; i++)
-			{
-				if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel2String().get(i)))
-					{
-						throw new BannerException("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 2. Error: (Restricción de Nivel)");
-					}
-			}
-			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 2, "Electiva Profesional", 0, true, semestre);
-			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
-			if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
-			{
-				throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
-			}
-			cursosTomados.add(agregada);
-			if(tipoE == true)
-			{
-				String tipo = agregada.darTipoMateria() + "- Tipo E";
-				agregada.setType(tipo);
-			}
-			if(epsilon == true)
-			{
-				String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
-				agregada.setType(tipo);
-			}
-			tomadosString += nuevaMateria.darCodigo()+"\n";
-			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
-			credsSemestre += agregada.darCreditos();
-			currentSemestre = semestre;
-			return 0;
-		}
-		
-		else if (CLE == true)
-		{
-			Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", clecreds, "Curso de Libre Eleccion", 0, true, semestre);
-			MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
-			if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
-			{
-				throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
-			}
-			cursosTomados.add(agregada);
-			if(tipoE == true)
-			{
-				String tipo = agregada.darTipoMateria() + "- Tipo E";
-				agregada.setType(tipo);
-			}
-			if(epsilon == true)
-		{
-				String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
-				agregada.setType(tipo);
-			}
-			tomadosString += nuevaMateria.darCodigo()+"\n";					
-			cursosTomadosArrayString.add(nuevaMateria.darCodigo());
-			credsSemestre += agregada.darCreditos();
-			currentSemestre = semestre;
-			return 0;
-		}
-		else
-		{
-			throw new BannerException(codigo);
-		}
-
-    }	
-	for (MateriaEstudiante mat : cursosTomados)
-	{
-		if (mat.darCodigo().contains(codigo))
-		{
-			String grade = mat.darNota();
-			try 
-			{
-				Double gradeNum = Double.parseDouble(grade);
-				Double notaNum = 0.0;
-				try 
-				{
-					notaNum = Double.parseDouble(nota);
-				}
-				catch (NumberFormatException e)
-				{
-				}
-				if (gradeNum<3.0 && (notaNum >=3.0 || nota.equals("A")))
-				{
-					double creds = 0;
-					for (Materia mater : pensum.darMateriasPensum())
-					{
-						if(mater.darCodigo().contains(mat.darCodigo()))
-						{
-							creds = mater.darCreditos();
-							break;
-						}
-					}
-					MateriaEstudiante agregada = revisarAprobado(mat, nota, semestre);
+					Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 2,"Electiva CBU " +codigo.charAt(2)+codigo.charAt(3), 0, true, semestre);
+					MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
 					if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
 					{
 						throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
 					}
-					agregada.setCredits(creds);
 					cursosTomados.add(agregada);
-					tomadosString += agregada.darCodigo()+"\n";
-					cursosTomadosArrayString.add(agregada.darCodigo());
+					if(tipoE == true)
+						{
+							String tipo = agregada.darTipoMateria() + "- Tipo E";
+							agregada.setType(tipo);
+						}
+					if(epsilon == true)
+						{
+							String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
+							agregada.setType(tipo);
+						}
+					tomadosString += nuevaMateria.darCodigo()+"\n";
+					cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+					credsSemestre += agregada.darCreditos();
+					currentSemestre = semestre;
+					return 0;
+				}
+				else if (codigo.equals("BIOL-3300")||codigo.equals("FISI-1038")||codigo.equals("FISI-1048")||codigo.equals("MATE-1107")||codigo.equals("MATE-2211")||codigo.equals("MATE-2301")||codigo.equals("MATE-2303")||codigo.equals("MATE-2411")||codigo.equals("MATE-3712")||codigo.equals("MBIO-2102")||codigo.equals("QUIM-1105")||codigo.equals("QUIM-1301")||codigo.equals("QUIM-1303")||codigo.equals("QUIM-1510")||codigo.equals("QUIM-2620"))
+				{
+					Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 3, "Electiva en Ciencias", 0, true, semestre);
+					MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+					if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+					{
+						throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+					}
+					cursosTomados.add(agregada);
+					if(tipoE == true)
+						{
+							String tipo = agregada.darTipoMateria() + "- Tipo E";
+							agregada.setType(tipo);
+						}
+					if(epsilon == true)
+						{
+							String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
+							agregada.setType(tipo);
+						}
+					tomadosString += nuevaMateria.darCodigo()+"\n";
+					cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+					credsSemestre += agregada.darCreditos();
+					currentSemestre = semestre;
+					return 0;
+				}
+				else if(codigo.equals("IBIO-2099")||codigo.equals("IBIO-2240")||codigo.equals("ICYA-1101")||codigo.equals("ICYA-1110")||codigo.equals("ICYA-1116")||codigo.equals("ICYA-1125")||codigo.equals("ICYA-2001")||codigo.equals("ICYA-2401")||codigo.equals("ICYA-2412")||codigo.equals("IELE-1002")||codigo.equals("IELE-1006")||codigo.equals("IELE-1010")||codigo.equals("IELE-1502")||codigo.equals("IELE-2010")||codigo.equals("IELE-2210")||codigo.equals("IELE-2300")||codigo.equals("IELE-2500")||codigo.equals("IIND-2103")||codigo.equals("IIND-2104")||codigo.equals("IIND-2107")||codigo.equals("IIND-2202")||codigo.equals("IIND-2301")||codigo.equals("IIND-2400")||codigo.equals("IMEC-1001")|codigo.equals("IMEC-1330")||codigo.equals("IMEC-1410")||codigo.equals("IMEC-1503")||codigo.equals("IQUI-2010")||codigo.equals("IQUI-2020")||codigo.equals("IQUI-2101")||codigo.equals("IQUI-2200"))
+				{
+						Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 3, "Electiva Ingeniería", 0, true, semestre);
+						MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+						if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+						{
+							throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+						}
+						cursosTomados.add(agregada);
+						if(tipoE == true)
+						{
+							String tipo = agregada.darTipoMateria() + "- Tipo E";
+							agregada.setType(tipo);
+						}
+						if(epsilon == true)
+						{
+							String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
+							agregada.setType(tipo);
+						}
+						tomadosString += nuevaMateria.darCodigo()+"\n";
+						cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+						credsSemestre += agregada.darCreditos();
+						currentSemestre = semestre;
+						return 0;
+				}
+				else if(codigo.equals("QUIM-1103")||codigo.equals("MBIO-1100")||codigo.equals("QUIM-1101"))
+				{
+						Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 3, "Curso Obligatorio", 0, true, semestre);
+						MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+						if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+						{
+							throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+						}
+						cursosTomados.add(agregada);
+						if(tipoE == true)
+						{
+							String tipo = agregada.darTipoMateria() + "- Tipo E";
+							agregada.setType(tipo);
+						}
+						if(epsilon == true)
+						{
+							String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
+							agregada.setType(tipo);
+						}
+						tomadosString += nuevaMateria.darCodigo()+"\n";
+						cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+						credsSemestre += agregada.darCreditos();
+						currentSemestre = semestre;
+						return 0;
+				}
+				else if(codigo.equals("IIND-4115")||codigo.equals("IIND-4123")||codigo.equals("MATE-3133")||codigo.equals("IELE-4231")||codigo.equals("FISI-3024")||codigo.equals("IELE-3338")||codigo.equals("IELE-4014")||codigo.equals("MATE-3102")||codigo.equals("MATE-4527")||codigo.equals("IBIO-3470")||codigo.equals("MATE-3134")||codigo.equals("IBIO-4680")||codigo.equals("IBIO-4490") || codigo.equals("ISIS-3991") || codigo.equals("ARTI-4202") || codigo.equals("ARTI-4205") || codigo.equals("BCOM-4104") || codigo.equals("MBIT-4102") || codigo.equals("MBIT-4201") || codigo.equals("MBIT-4202") || codigo.equals("MBIT-4203") || codigo.equals("MBIT-4210") || codigo.equals("MBIT-4213") || codigo.equals("MBIT-4214") || codigo.equals("MSIN-4101") || codigo.equals("MSIN-4206") || codigo.equals("MINE-4102") || codigo.equals("MINE-4103") || codigo.equals("MINE-4201") || codigo.equals("MINE-4206") || codigo.equals("MISO-4101"))
+				{
+					for(int i = 0; pensum.darMateriasNivel1String().size()>i; i++)
+						{
+							if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel1String().get(i)))
+							{
+								throw new BannerException("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 1. Error: (Restricción de Nivel)");
+							}
+						}
+					for(int i = 0; pensum.darMateriasNivel2String().size()>i; i++)
+					{
+						if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel2String().get(i)))
+							{
+								throw new BannerException("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 2. Error: (Restricción de Nivel)");
+							}
+					}
+					double creds = 3;
+					if(codigo.equals("ISIS-3991"))
+					{
+						creds = 6;
+					}
+					else if (codigo.equals("ARTI-4202") || codigo.equals("ARTI-4205") || codigo.equals("BCOM-4104") || codigo.equals("MBIT-4102") || codigo.equals("MBIT-4201") || codigo.equals("MBIT-4202") || codigo.equals("MBIT-4203") || codigo.equals("MBIT-4210") || codigo.equals("MBIT-4213") || codigo.equals("MBIT-4214") || codigo.equals("MSIN-4101") || codigo.equals("MSIN-4206") || codigo.equals("MINE-4102") || codigo.equals("MINE-4103") || codigo.equals("MINE-4201") || codigo.equals("MINE-4206") || codigo.equals("MISO-4101"))
+					{
+						creds = 4;
+					}
+					Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", creds, "Electiva Profesional", 4, true, semestre);
+					MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+					if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+					{
+						throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+					}
+					cursosTomados.add(agregada);
+					if(tipoE == true)
+					{
+						String tipo = agregada.darTipoMateria() + "- Tipo E";
+						agregada.setType(tipo);
+					}
+					if(epsilon == true)
+					{
+						String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
+						agregada.setType(tipo);
+					}
+					tomadosString += nuevaMateria.darCodigo()+"\n";
+					cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+					credsSemestre += agregada.darCreditos();
+					currentSemestre = semestre;
+					return 0;
+				}				
+				else if(codigo.contains("ISIS-4"))
+				{
+					for(int i = 0; pensum.darMateriasNivel1String().size()>i; i++)
+						{
+							if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel1String().get(i)))
+							{
+								throw new BannerException("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 1. Error: (Restricción de Nivel)");
+							}
+						}
+					for(int i = 0; pensum.darMateriasNivel2String().size()>i; i++)
+					{
+						if(!cursosTomadosArrayString.contains(pensum.darMateriasNivel2String().get(i)))
+							{
+								throw new BannerException("Hubo un problema inscribiendo materias. No se han visto todas las materias de Nivel 2. Error: (Restricción de Nivel)");
+							}
+					}
+					Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", 2, "Electiva Profesional", 0, true, semestre);
+					MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+					if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+					{
+						throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+					}
+					cursosTomados.add(agregada);
+					if(tipoE == true)
+					{
+						String tipo = agregada.darTipoMateria() + "- Tipo E";
+						agregada.setType(tipo);
+					}
+					if(epsilon == true)
+					{
+						String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
+						agregada.setType(tipo);
+					}
+					tomadosString += nuevaMateria.darCodigo()+"\n";
+					cursosTomadosArrayString.add(nuevaMateria.darCodigo());
+					credsSemestre += agregada.darCreditos();
+					currentSemestre = semestre;
+					return 0;
+				}
+				
+				else if (CLE == true)
+				{
+					Materia nuevaMateria = new Materia(codigo, codigo, "N/A", "N/A", clecreds, "Curso de Libre Eleccion", 0, true, semestre);
+					MateriaEstudiante agregada = revisarAprobado(nuevaMateria, nota, semestre);
+					if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+					{
+						throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+					}
+					cursosTomados.add(agregada);
+					if(tipoE == true)
+					{
+						String tipo = agregada.darTipoMateria() + "- Tipo E";
+						agregada.setType(tipo);
+					}
+					if(epsilon == true)
+					{
+						String tipo = agregada.darTipoMateria() + "- Curso Epsilon";
+						agregada.setType(tipo);
+					}
+					tomadosString += nuevaMateria.darCodigo()+"\n";					
+					cursosTomadosArrayString.add(nuevaMateria.darCodigo());
 					credsSemestre += agregada.darCreditos();
 					currentSemestre = semestre;
 					return 0;
 				}
 				else
 				{
-					throw new BannerException("No se puede repetir una materia que no haya sido perdida.");
+					throw new BannerException("Error con la materia " + codigo + "(Este error no debería ocurrir, revisa la materia)");
 				}
-
-					} 
-				catch (Exception e) 
+		
+			}
+			else 
+			{
+				throw new BannerException(codigo + " no fue encontrada en la cartelera del semestre "+ semestre);
+			}				
+		}
+		else
+		{
+			for (MateriaEstudiante mat : cursosTomados)
+			{
+				if (mat.darCodigo().contains(codigo))
 				{
-					Double notaNum = 0.0;
+					String grade = mat.darNota();
 					try 
 					{
-						notaNum = Double.parseDouble(nota);
-					}
-					catch (NumberFormatException ex)
-					{
-					}
-					if((grade.equals("R")||grade.equals("I")) && (notaNum >=3.0 || nota.equals("A")))
-					{
-						double creds = 0;
-						for (Materia mater : pensum.darMateriasPensum())
+						Double gradeNum = Double.parseDouble(grade);
+						Double notaNum = 0.0;
+						try 
 						{
-							if(mater.darCodigo().contains(mat.darCodigo()))
+							notaNum = Double.parseDouble(nota);
+						}
+						catch (NumberFormatException e)
+						{
+						}
+						if (gradeNum<3.0 && (notaNum >=3.0 || nota.equals("A")))
+						{
+							double creds = 0;
+							for (Materia mater : pensum.darMateriasPensum())
 							{
-								creds = mater.darCreditos();
-								break;
+								if(mater.darCodigo().contains(mat.darCodigo()))
+								{
+									creds = mater.darCreditos();
+									break;
+								}
 							}
+							MateriaEstudiante agregada = revisarAprobado(mat, nota, semestre);
+							if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+							{
+								throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+							}
+							agregada.setCredits(creds);
+							cursosTomados.add(agregada);
+							tomadosString += agregada.darCodigo()+"\n";
+							cursosTomadosArrayString.add(agregada.darCodigo());
+							credsSemestre += agregada.darCreditos();
+							currentSemestre = semestre;
+							return 0;
 						}
-						MateriaEstudiante agregada = revisarAprobado(mat, nota, semestre);
-						if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+						else
 						{
-							throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+							throw new BannerException("No se puede repetir una materia que no haya sido perdida.");
 						}
-						agregada.setCredits(creds);
-						cursosTomados.add(agregada);
-						tomadosString += agregada.darCodigo()+"\n";
-						cursosTomadosArrayString.add(agregada.darCodigo());
-						credsSemestre += agregada.darCreditos();
-						currentSemestre = semestre;
-						return 0;
+		
+							} 
+						catch (Exception e) 
+						{
+							Double notaNum = 0.0;
+							try 
+							{
+								notaNum = Double.parseDouble(nota);
+							}
+							catch (NumberFormatException ex)
+							{
+							}
+							if((grade.equals("R")||grade.equals("I")) && (notaNum >=3.0 || nota.equals("A")))
+							{
+								double creds = 0;
+								for (Materia mater : pensum.darMateriasPensum())
+								{
+									if(mater.darCodigo().contains(mat.darCodigo()))
+									{
+										creds = mater.darCreditos();
+										break;
+									}
+								}
+								MateriaEstudiante agregada = revisarAprobado(mat, nota, semestre);
+								if(agregada.darCodigo().contains(codigo) && (revisarExtracreditacion(semestre, agregada.darCreditos()) == false))
+								{
+									throw new BannerException("Error al inscribir materias, se está sobrepasando el límite de créditos. Conflicto con: "+ agregada.darCodigo() + " Creds con esta materia: " + String.valueOf(agregada.darCreditos() + credsSemestre));
+								}
+								agregada.setCredits(creds);
+								cursosTomados.add(agregada);
+								tomadosString += agregada.darCodigo()+"\n";
+								cursosTomadosArrayString.add(agregada.darCodigo());
+								credsSemestre += agregada.darCreditos();
+								currentSemestre = semestre;
+								return 0;
+							}
+							else
+							{
+								throw new BannerException("No se puede repetir una materia que no haya sido perdida.");
+							}
 					}
-					else
-					{
-						throw new BannerException("No se puede repetir una materia que no haya sido perdida.");
-					}
-			}
+				}
+			}				
 		}
-	}
 		throw new BannerException("Error al inscribir materias (Estudiante.java) line414");
 	}
 

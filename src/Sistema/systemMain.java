@@ -3,6 +3,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+
 import IdentificadorUsuario.CoordinadorAcademico;
 import IdentificadorUsuario.Estudiante;
 import curriculo.Pensum;
@@ -64,9 +66,9 @@ public class systemMain
         return analizador.cargarReglasPrograma(reglas, estudiante, nuevoPensum);
     }
 
-    public void cargarCarrtelera(File cartelera) throws IOException
+    public ArrayList<String> cargarCartelera(File cartelera) throws IOException
     {
-        analizador.cargarCartelera(cartelera);
+        return analizador.cargarCartelera(cartelera);
     }
 }
 
