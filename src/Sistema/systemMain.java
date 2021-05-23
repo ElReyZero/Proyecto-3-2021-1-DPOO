@@ -63,5 +63,10 @@ public class systemMain
     {
         return analizador.cargarReglasPrograma(reglas, estudiante, nuevoPensum);
     }
+
+    public void cargarCarrtelera(File cartelera) throws IOException
+    {
+        analizador.cargarCartelera(cartelera);
+    }
 }
 

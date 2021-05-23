@@ -15,7 +15,6 @@ public class VentanaReformaPensum extends JPanel implements ActionListener
  private Estudiante copia;
  private systemMain sistema;
  private VentanaPrincipal ventanaMain;
- private JButton volver;
  private JButton nuevo;
  private JButton viejo;
 

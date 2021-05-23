@@ -459,8 +459,24 @@ public class analizadorArchivo {
 	}
 
 
-	public void cargarCartelera(File cartelera)
+	public ArrayList<String> cargarCartelera(File cartelera) throws IOException
 	{
-
+		BufferedReader br = new BufferedReader(new FileReader(cartelera));
+		br.readLine();
+		br.readLine();
+		ArrayList<String> listaCartelera = new ArrayList<>();
+		String linea = br.readLine();
+		while (linea != null)
+		{
+			String[] partes = linea.split(";");
+			String codigo = partes[4];
+			if (!listaCartelera.contains(codigo))
+			{
+				listaCartelera.add(codigo);
+			}
+			linea = br.readLine();
+		}
+		br.close();
+		return listaCartelera;
 	}
 }
