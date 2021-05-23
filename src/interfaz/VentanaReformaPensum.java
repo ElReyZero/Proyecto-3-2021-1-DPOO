@@ -3,6 +3,8 @@ package interfaz;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import IdentificadorUsuario.Estudiante;
@@ -66,10 +68,22 @@ public class VentanaReformaPensum extends JPanel implements ActionListener
     {
         if(e.getSource() == viejo)
         {
+            int opcion = JOptionPane.showConfirmDialog(this, new JLabel("¿Estas seguro que quieres acogerte al viejo pensum?"), "Confirmación cambio de pensum", JOptionPane.ERROR_MESSAGE);
+            if (opcion == 1) 
+            {
+                ventanaMain.actualizarMain(new VentanaReformaPensum(ventanaMain, sistema, estudiante, copia));
+            }
+            else
             ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante));
         }
         else if(e.getSource()== nuevo)
         {
+            int opcion = JOptionPane.showConfirmDialog(this, new JLabel("¿Estas seguro que quieres acogerte al nuevo pensum?"), "Confirmación cambio de pensum", JOptionPane.ERROR_MESSAGE);
+            if (opcion == 1) 
+            {
+                ventanaMain.actualizarMain(new VentanaReformaPensum(ventanaMain, sistema, estudiante, copia));
+            }
+            else
             ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , copia));
         } 
     }
