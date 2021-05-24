@@ -79,7 +79,9 @@ public class VentanaReformaPensum extends JPanel implements ActionListener
             int opcion = JOptionPane.showConfirmDialog(this, new JLabel("¿Estas seguro que quieres acogerte al viejo pensum?"), "Confirmación cambio de pensum", JOptionPane.ERROR_MESSAGE);
             if (opcion != 1) 
             {
-                ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante, oldP));
+                HashMap<Double, ArrayList<String>> mapa = (HashMap<Double, ArrayList<String>>) oldP.darCarteleras().clone();
+                nuevoP.setCarteleras(mapa);
+                ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante, nuevoP));
             }            
         }
         else if(e.getSource()== nuevo)

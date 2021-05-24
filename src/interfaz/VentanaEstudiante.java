@@ -148,7 +148,8 @@ public class VentanaEstudiante extends JPanel implements ActionListener
       return panelVolver;
     }
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) 
+    {
         var boton = e.getSource();
 		if(boton == volver)
 		{
@@ -156,66 +157,73 @@ public class VentanaEstudiante extends JPanel implements ActionListener
 		}
         else if(boton == cargarCartelera)
         {
-            JTextField semCartelera = new JTextField();
-            final JComponent[] inputsCartelera = new JComponent[] 
+            if (pensum == null)
             {
-                new JLabel("¿A qué semestre pertenece la cartelera a cargar?"),
-                semCartelera,
-            };
-            int result = JOptionPane.showConfirmDialog(this, inputsCartelera, "Cargar Cartelera", JOptionPane.PLAIN_MESSAGE);
-            if (result == JOptionPane.OK_OPTION && semCartelera.getText().equals(""))
-            {
-                JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, new JLabel("Tienes cargar el pensum antes de cargar carteleras."), "Error", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
-                try
+                JTextField semCartelera = new JTextField();
+                final JComponent[] inputsCartelera = new JComponent[] 
                 {
-                    double sem = Double.parseDouble(semCartelera.getText());
-                    if(pensum.darCarteleras().get(sem) != null)
+                    new JLabel("¿A qué semestre pertenece la cartelera a cargar?"),
+                    semCartelera,
+                };
+                int result = JOptionPane.showConfirmDialog(this, inputsCartelera, "Cargar Cartelera", JOptionPane.PLAIN_MESSAGE);
+                if (result == JOptionPane.OK_OPTION && semCartelera.getText().equals(""))
+                {
+                    JOptionPane.showMessageDialog(this, new JLabel("Tienes que completar todos los datos."), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                {
+                    try
                     {
-                        try 
+                        double sem = Double.parseDouble(semCartelera.getText());
+                        if(pensum.darCarteleras().get(sem) != null)
                         {
-                            throw new BannerException("Ya existe una cartelera para el semestre " + semCartelera.getText());
-                        } catch (BannerException e1) 
-                        {
-                            sistema.escribirException(e1);
-                            e1.printStackTrace();
-                            JOptionPane.showMessageDialog(this, new JLabel(e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-                    else
-                    {
-                        File cartelera = null;
-                        JFileChooser fc = new JFileChooser();
-                        fc.setDialogTitle("Seleccione el archivo con la cartelera del semestre " +semCartelera.getText());
-                        fc.setFileFilter(new FiltroCSV());
-                        int respuesta = fc.showOpenDialog(this);
-                        if(respuesta == JFileChooser.APPROVE_OPTION)
-                        {
-                            cartelera = fc.getSelectedFile();
                             try 
                             {
-                                ArrayList<String> lista = sistema.cargarCartelera(cartelera);
-                                HashMap<Double, ArrayList<String>> mapaCart = pensum.darCarteleras();
-                                mapaCart.put(Double.parseDouble(semCartelera.getText()), lista);
-                                JOptionPane.showMessageDialog(this, new JLabel("Cartelera del semestre " + semCartelera.getText() + " cargada satisfactoriamente"), "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                            }
-                            catch (Exception e1) 
+                                throw new BannerException("Ya existe una cartelera para el semestre " + semCartelera.getText());
+                            } catch (BannerException e1) 
                             {
                                 sistema.escribirException(e1);
                                 e1.printStackTrace();
                                 JOptionPane.showMessageDialog(this, new JLabel(e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
                             }
                         }
+                        else
+                        {
+                            File cartelera = null;
+                            JFileChooser fc = new JFileChooser();
+                            fc.setDialogTitle("Seleccione el archivo con la cartelera del semestre " +semCartelera.getText());
+                            fc.setFileFilter(new FiltroCSV());
+                            int respuesta = fc.showOpenDialog(this);
+                            if(respuesta == JFileChooser.APPROVE_OPTION)
+                            {
+                                cartelera = fc.getSelectedFile();
+                                try 
+                                {
+                                    ArrayList<String> lista = sistema.cargarCartelera(cartelera);
+                                    HashMap<Double, ArrayList<String>> mapaCart = pensum.darCarteleras();
+                                    mapaCart.put(Double.parseDouble(semCartelera.getText()), lista);
+                                    JOptionPane.showMessageDialog(this, new JLabel("Cartelera del semestre " + semCartelera.getText() + " cargada satisfactoriamente"), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                                }
+                                catch (Exception e1) 
+                                {
+                                    sistema.escribirException(e1);
+                                    e1.printStackTrace();
+                                    JOptionPane.showMessageDialog(this, new JLabel(e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        }
+                                            
                     }
-                                        
-                }
-                catch (NumberFormatException exa)
-                {
-                    sistema.escribirException(exa);
-                    exa.printStackTrace();
-                    JOptionPane.showMessageDialog(this, new JLabel("Solo puedes ingresar números en este campo"), "Error", JOptionPane.ERROR_MESSAGE);
+                    catch (NumberFormatException exa)
+                    {
+                        sistema.escribirException(exa);
+                        exa.printStackTrace();
+                        JOptionPane.showMessageDialog(this, new JLabel("Solo puedes ingresar números en este campo"), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
 

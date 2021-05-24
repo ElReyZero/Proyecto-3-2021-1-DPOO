@@ -102,6 +102,11 @@ public class candidaturaGrado {
         {
             faltantes += "Ninguno";
         }
+        else
+        {
+            posible = false;
+            errores += "No se han cursado todas las materias del pensum.";
+        }
 
         for (String codigoMat : tomadosString) 
         {

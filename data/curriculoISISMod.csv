@@ -4,7 +4,7 @@ Introducción a la Programación;ISIS-1221;N/A;N/A;3;1;Curso Obligatorio;true;1
 Introducción a la Ingeniería de Sistemas;ISIS-1001;N/A;N/A;3;1;Curso Obligatorio;true;1
 Escritura Universitaria 1;LENG-1511|LENG-1621;N/A;N/A;2;1;Req.Español;false;1
 Escritura Universitaria 2;LENG-1512|LENG-1622;LENG-1511|LENG-1621;N/A;2;1;Req.Español;false;1
-Constitución y Democracia;DERE-1300;N/A;N/A;3;1;Curso Obligatorio;true;1
+Constitución y Democracia MOD;CBPC-XXXX;N/A;N/A;3;1;Curso Obligatorio;true;1
 Colombia: Espacio, Tiempo, Diferencia;CBCC-1177;N/A;N/A;2;1;Curso Obligatorio;false;1
 Física Experimental 1 ;FISI-1019;N/A;FISI-1018&MATE-1203;1;1;Curso Obligatorio;true;2
 Física 1;FISI-1018;N/A;MATE-1203;3;1;Curso Obligatorio;true;2
@@ -12,8 +12,8 @@ Cálculo Integral y Ecuaciones Diferenciales ;MATE-1214;MATE-1203;N/A;3;1;Curso 
 Matemática Estrucutral y Lógica;ISIS-1104;ISIS-1204|ISIS-1207|ISIS-1221;N/A;3;1;Curso Obligatorio;true;2
 Estructuras de Datos y Algorítmos;ISIS-1225;ISIS-1221;N/A;3;1;Curso Obligatorio;true;2
 Electiva CBU;CBCO-XXXX;N/A;N/A;2;0;Electiva CBU CO;true;2
-Física Experimental 2;FISI-1029;FISI-1019;FISI-1028;1;1;Curso Obligatorio;true;2
-Física 2;FISI-1028;FISI-1018&MATE-1203;N/A;3;1;Curso Obligatorio;true;2
+Física Experimental 2;FISI-1029;FISI-1019;CBXX-XXXX;1;1;Curso Obligatorio;true;2
+Física 2 MOD;CBXX-XXXX;FISI-1018&MATE-1203;N/A;3;1;Curso Obligatorio;true;2
 Álgebra Lineal;MATE-1105;MATE-1203;N/A;3;1;Curso Obligatorio;true;3
 Lenguajes y Máquinas;ISIS-1106;ISIS-1104&(ISIS-1205|ISIS-1209|ISIS-1225);LENG-1512|LENG-1622;3;1;Curso Obligatorio;true;3
 Diseño y Programación Orientada a Objetos;ISIS-1226;ISIS-1225;N/A;3;1;Curso Obligatorio;true;3
