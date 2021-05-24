@@ -61,4 +61,9 @@ public class Pensum {
     {
         return carteleras;
     }
+
+    public void setCarteleras(HashMap<Double, ArrayList<String>> mapa)
+    {
+        carteleras = mapa;
+    }
 }

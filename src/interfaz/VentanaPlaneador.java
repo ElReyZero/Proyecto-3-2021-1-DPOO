@@ -179,7 +179,7 @@ public class VentanaPlaneador extends JPanel implements ActionListener
             }
             else
             {
-                ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante));
+                ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante, pensum));
             }
 		}
         else if (e.getSource() == registrarMateria)

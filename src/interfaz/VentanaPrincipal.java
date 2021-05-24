@@ -108,7 +108,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 			else
 			{
 				Estudiante estudiante = new Estudiante(firstName.getText(),codigo.getText(),carrera.getText());
-				actualizarMain(new VentanaEstudiante(firstName.getText(), codigo.getText(), carrera.getText(), this, sistema, estudiante));
+				actualizarMain(new VentanaEstudiante(firstName.getText(), codigo.getText(), carrera.getText(), this, sistema, estudiante, null));
 			}
 		}
 		else if(boton == botonCoordinador)

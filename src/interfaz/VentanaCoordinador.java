@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -29,7 +30,7 @@ import Sistema.BannerException;
 import Sistema.systemMain;
 import curriculo.MateriaEstudiante;
 import curriculo.Pensum;
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unchecked"})
 public class VentanaCoordinador extends JPanel implements ActionListener
 {
 
@@ -234,7 +235,9 @@ public class VentanaCoordinador extends JPanel implements ActionListener
                     if (resultado == JFileChooser.APPROVE_OPTION)
                     {
                         archivo_pensumNuevo = fc.getSelectedFile();
+                        HashMap<Double, ArrayList<String>> carteleras = (HashMap<Double, ArrayList<String>>) pensum.darCarteleras().clone();
                         pensum = sistema.cargarPensumAnalizador(archivo_pensumNuevo);
+                        pensum.setCarteleras(carteleras);
                     }
                 }
         }             
@@ -255,7 +258,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
                 int ans = JOptionPane.showOptionDialog(this, "¿Quieres generar el reporte para toda tu carrera o un semestre específico?", "Reporte Notas", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
                 if (ans == 0)
                 {
-                    ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, estudiante, true, null, true, coordinador, true, ""));
+                    ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, estudiante, true, null, true, coordinador, true, "", pensum));
                 }
                 else if (ans == 1)
                 {
@@ -286,7 +289,7 @@ public class VentanaCoordinador extends JPanel implements ActionListener
                                     }
                                 }
                                 copia.setCursosTomados(lista);
-                                ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, copia, false, estudiante, true, coordinador, true, ""));
+                                ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, copia, false, estudiante, true, coordinador, true, "", pensum));
                             }
                             catch (CloneNotSupportedException exe)
                             {

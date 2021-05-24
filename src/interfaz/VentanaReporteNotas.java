@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import IdentificadorUsuario.CoordinadorAcademico;
 import IdentificadorUsuario.Estudiante;
 import Sistema.systemMain;
+import curriculo.Pensum;
 import funcionalidades.reporteNotas;
 
 @SuppressWarnings("serial")
@@ -31,8 +32,9 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
     private boolean esCoordinador;
     private CoordinadorAcademico coordinador;
     private JLabel tipoPensum;
+    private Pensum pensum;
 
-    public VentanaReporteNotas(VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante, boolean pTodo, Estudiante pRespaldo, boolean pEsCoordinador, CoordinadorAcademico pCoordinador, boolean pVolver, String tipoPensumString)
+    public VentanaReporteNotas(VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante, boolean pTodo, Estudiante pRespaldo, boolean pEsCoordinador, CoordinadorAcademico pCoordinador, boolean pVolver, String tipoPensumString, Pensum pPensum)
     {
         ventanaMain = pVentanaMain;
         sistema = pSistema;
@@ -41,6 +43,7 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
         respaldo = pRespaldo;
         esCoordinador = pEsCoordinador;
         coordinador = pCoordinador;
+        pensum = pPensum;
         tipoPensum = new JLabel(tipoPensumString);
 		setLayout(new BorderLayout());
         ///Botones y paneles
@@ -116,7 +119,7 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
                 }
                 else
                 {
-                    ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante));
+                    ventanaMain.actualizarMain(new VentanaEstudiante(estudiante.darNombre(), estudiante.darCodigo(), estudiante.darCodigo(), ventanaMain, sistema , estudiante, pensum));
                 }
             }
 			else
@@ -127,7 +130,7 @@ public class VentanaReporteNotas extends JPanel implements ActionListener
                 }
                 else
                 {
-                    ventanaMain.actualizarMain(new VentanaEstudiante(respaldo.darNombre(), respaldo.darCodigo(), respaldo.darCodigo(), ventanaMain, sistema , respaldo));
+                    ventanaMain.actualizarMain(new VentanaEstudiante(respaldo.darNombre(), respaldo.darCodigo(), respaldo.darCodigo(), ventanaMain, sistema , respaldo, pensum));
                 }
             }
 		}

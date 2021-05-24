@@ -51,7 +51,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         private Estudiante estudiante;
         private Pensum pensum;
 		
-    public VentanaEstudiante(String nombre, String codigo, String carrera, VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante)
+    public VentanaEstudiante(String nombre, String codigo, String carrera, VentanaPrincipal pVentanaMain, systemMain pSistema, Estudiante pEstudiante, Pensum pPensum)
     {
     	ventanaMain = pVentanaMain;
         sistema = pSistema;
@@ -73,7 +73,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
         add(volver,BorderLayout.SOUTH);
         setSize(1000, 900);
 		setVisible(true);
-        pensum = sistema.darPensum();
+        pensum = pPensum;
     }
     public JPanel PanelOpcionesEstudiante()
     {
@@ -258,7 +258,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
 						try 
                         {
 							copia = sistema.cargarReglasPrograma(archivo_homologacion, estudiante, nuevoPensum);
-                            ventanaMain.actualizarMain(new VentanaReformaPensum(ventanaMain, sistema, estudiante, copia));
+                            ventanaMain.actualizarMain(new VentanaReformaPensum(ventanaMain, sistema, estudiante, copia, pensum, nuevoPensum));
 						}
                         catch (Exception e1)
                         {
@@ -365,7 +365,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                 int ans = JOptionPane.showOptionDialog(this, "¿Quieres generar el reporte para toda tu carrera o un semestre específico?", "Reporte Notas", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
                 if (ans == 0)
                 {
-                    ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, estudiante, true, null, false, null, true, ""));
+                    ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, estudiante, true, null, false, null, true, "", pensum));
                 }
                 else if (ans == 1)
                 {
@@ -396,7 +396,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                                     }
                                 }
                                 copia.setCursosTomados(lista);
-                                ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, copia, false, estudiante, false, null, true, ""));
+                                ventanaMain.actualizarMain(new VentanaReporteNotas(ventanaMain, sistema, copia, false, estudiante, false, null, true, "", pensum));
                             }
                             catch (CloneNotSupportedException exe)
                             {
