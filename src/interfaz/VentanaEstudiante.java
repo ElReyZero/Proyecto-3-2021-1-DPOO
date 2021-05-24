@@ -188,7 +188,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                     {
                         File cartelera = null;
                         JFileChooser fc = new JFileChooser();
-                        fc.setDialogTitle("Seleccione el archivo con la cartelera");
+                        fc.setDialogTitle("Seleccione el archivo con la cartelera del semestre " +semCartelera.getText());
                         fc.setFileFilter(new FiltroCSV());
                         int respuesta = fc.showOpenDialog(this);
                         if(respuesta == JFileChooser.APPROVE_OPTION)
