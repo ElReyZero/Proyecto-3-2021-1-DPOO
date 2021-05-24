@@ -408,11 +408,15 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                             }
                             catch (CloneNotSupportedException exe)
                             {
+                                sistema.escribirException(exe);
+                                JOptionPane.showMessageDialog(this, new JLabel(exe.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
                                 exe.printStackTrace();
                             }
                         }
                         catch (NumberFormatException ex)
                         {
+                            sistema.escribirException(ex);
+                            ex.printStackTrace();
                             JOptionPane.showMessageDialog(this, new JLabel("Tienes que ingresar un número."), "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
@@ -488,14 +492,20 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                     if (response == JFileChooser.APPROVE_OPTION)
                     {
                         archivo = fc.getSelectedFile();
-                        try {
+                        try 
+                        {
                             sistema.guardarAvanceEstudiante(archivo, estudiante);
-                        } catch (FileNotFoundException e1) {
+                        } 
+                        catch (FileNotFoundException e1) 
+                        {
+                            sistema.escribirException(e1);
                             JOptionPane.showMessageDialog(this, new JLabel("El archivo no fue encontrado"), "Error", JOptionPane.ERROR_MESSAGE);
                             e1.printStackTrace();
-                        } catch (UnsupportedEncodingException e1) {
+                        } catch (UnsupportedEncodingException e2) 
+                        {
+                            sistema.escribirException(e2);
                             JOptionPane.showMessageDialog(this, new JLabel("Hubo un problema con el encoding del archivo"), "Error", JOptionPane.ERROR_MESSAGE);
-                            e1.printStackTrace();
+                            e2.printStackTrace();
                         }
                     }
                 }
@@ -532,6 +542,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                     } 
                     catch (BannerException e1) 
                     {
+                        JOptionPane.showMessageDialog(this, new JLabel(e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
                         sistema.escribirException(e1);
                         e1.printStackTrace();
                     }
@@ -557,6 +568,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                     } 
                     catch (BannerException e1)
                      {
+                        JOptionPane.showMessageDialog(this, new JLabel(e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
                         sistema.escribirException(e1);
                         e1.printStackTrace();
                     }
@@ -570,6 +582,7 @@ public class VentanaEstudiante extends JPanel implements ActionListener
                     } 
                     catch (BannerException e1) 
                     {
+                        JOptionPane.showMessageDialog(this, new JLabel(e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
                         sistema.escribirException(e1);
                         e1.printStackTrace();
                     }
@@ -727,9 +740,14 @@ public class VentanaEstudiante extends JPanel implements ActionListener
             else
             {
                 Estudiante copia = null;
-                try {
+                try 
+                {
                     copia = estudiante.clone();
-                } catch (CloneNotSupportedException exer) {
+                } 
+                catch (CloneNotSupportedException exer) 
+                {
+                    sistema.escribirException(exer);
+                    JOptionPane.showMessageDialog(this, new JLabel(exer.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
                     exer.printStackTrace();
                     copia = null;
                 }
@@ -791,6 +809,8 @@ public class VentanaEstudiante extends JPanel implements ActionListener
             }
             catch (NumberFormatException exa)
             {
+                sistema.escribirException(exa);
+                exa.printStackTrace();
                 JOptionPane.showMessageDialog(this, new JLabel("No se registró la materia. (Formato inválido de créditos)"), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }

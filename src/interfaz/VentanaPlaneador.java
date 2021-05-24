@@ -218,13 +218,15 @@ public class VentanaPlaneador extends JPanel implements ActionListener
                 catch (NumberFormatException ex)
                 {
                     error = -1;
+                    sistema.escribirException(ex);
+                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(this, new JLabel("Solo puedes ingresar números en semestre."), "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 if (error != -1)
                 {
                     if (copia == null)
                     {
-                        System.out.println("Error, no se encuentra la copia");
+                        JOptionPane.showMessageDialog(this, new JLabel("Error, no se encuentra la copia"), "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     if(cle.isSelected())
                     {
@@ -235,12 +237,13 @@ public class VentanaPlaneador extends JPanel implements ActionListener
                         catch (NumberFormatException e1) 
                         {
                             sistema.escribirException(e1);
-                            e1.printStackTrace();
-                        } catch (BannerException e1) 
-                        {
-                            sistema.escribirException(e1);
                             JOptionPane.showMessageDialog(this, new JLabel(e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
                             e1.printStackTrace();
+                        } catch (BannerException be) 
+                        {
+                            sistema.escribirException(be);
+                            JOptionPane.showMessageDialog(this, new JLabel(be.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+                            be.printStackTrace();
                         }
                     }
                     else
@@ -251,6 +254,7 @@ public class VentanaPlaneador extends JPanel implements ActionListener
                         } 
                         catch (NumberFormatException e1) 
                         {
+                            JOptionPane.showMessageDialog(this, new JLabel(e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
                             sistema.escribirException(e1);
                             e1.printStackTrace();
                         }
@@ -363,6 +367,8 @@ public class VentanaPlaneador extends JPanel implements ActionListener
                             catch (NumberFormatException exa)
                             {
                                 JOptionPane.showMessageDialog(this, new JLabel("Inserta un semestre válido"), "Error", JOptionPane.ERROR_MESSAGE);
+                                sistema.escribirException(exa);
+                                exa.printStackTrace();
                             }
                         }
                     }
@@ -406,12 +412,18 @@ public class VentanaPlaneador extends JPanel implements ActionListener
                         archivo = fc.getSelectedFile();
                         try {
                             planeador.guardarPlaneación(guardarPlan, sistema, estudiante, archivo);
-                        } catch (FileNotFoundException e1) {
+                        } 
+                        catch (FileNotFoundException e1) 
+                        {
                             JOptionPane.showMessageDialog(this, new JLabel("El archivo no fue encontrado"), "Error", JOptionPane.ERROR_MESSAGE);
                             e1.printStackTrace();
-                        } catch (UnsupportedEncodingException e1) {
+                            sistema.escribirException(e1);
+                        } 
+                        catch (UnsupportedEncodingException e2) 
+                        {
                             JOptionPane.showMessageDialog(this, new JLabel("Hubo un problema con el encoding del archivo"), "Error", JOptionPane.ERROR_MESSAGE);
-                            e1.printStackTrace();
+                            e2.printStackTrace();
+                            sistema.escribirException(e2);
                         }
                     }
                 }

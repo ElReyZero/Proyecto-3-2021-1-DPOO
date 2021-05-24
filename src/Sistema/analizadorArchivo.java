@@ -80,6 +80,7 @@ public class analizadorArchivo {
 			{
 				System.out.println("No encontré el archivo ...");
 				e.printStackTrace();
+				escribirErrorLog(e);
 				pensum = null;
 				return null;
 			}
@@ -87,6 +88,7 @@ public class analizadorArchivo {
 			{
 				System.out.println("Error de lectura ...");
 				e.printStackTrace();
+				escribirErrorLog(e);
 				pensum = null;
 				return null;
 			}
@@ -94,6 +96,7 @@ public class analizadorArchivo {
 			{
 				System.out.println("Error en los datos: un número no se pudo convertir a int ...");
 				e.printStackTrace();
+				escribirErrorLog(e);
 				pensum = null;
 				return null;
 			}
@@ -240,6 +243,7 @@ public class analizadorArchivo {
 			{
 				System.out.println("No encontré el archivo ...");
 				e.printStackTrace();
+				escribirErrorLog(e);
 				estudiante.borrarDatosEstudiante();
 				return -10;
 			}
@@ -247,6 +251,7 @@ public class analizadorArchivo {
 			{
 				System.out.println("Error de lectura ...");
 				e.printStackTrace();
+				escribirErrorLog(e);
 				estudiante.borrarDatosEstudiante();
 				return -11;
 			}
@@ -254,6 +259,7 @@ public class analizadorArchivo {
 			{
 				System.out.println("Error en los datos: un número no se pudo convertir a int ...");
 				e.printStackTrace();
+				escribirErrorLog(e);
 				estudiante.borrarDatosEstudiante();
 				return -12;
 			}
@@ -362,6 +368,7 @@ public class analizadorArchivo {
 			catch (FileNotFoundException e)
 			{
 				e.printStackTrace();
+				escribirErrorLog(e);
 				return -10;
 			}
 			catch (IOException e)
@@ -371,6 +378,7 @@ public class analizadorArchivo {
 				{
 					coordinador.darEstudiante(codigoEst).borrarDatosEstudiante();
 				}
+				escribirErrorLog(e);
 				return -11;
 			}
 			catch (NumberFormatException e)
@@ -380,6 +388,7 @@ public class analizadorArchivo {
 				{
 					coordinador.darEstudiante(codigoEst).borrarDatosEstudiante();
 				}
+				escribirErrorLog(e);
 				return -12;
 			}
 			
@@ -411,6 +420,7 @@ public class analizadorArchivo {
 		} 
 		catch (Exception e) 
 		{
+			escribirErrorLog(e);
 			e.printStackTrace();
 		}
 		
