@@ -55,7 +55,7 @@ public class reporteNotas
         return reportePorSemestre;
     }
 
-    public static ArrayList<MateriaEstudiante> ordenarMaterias(Estudiante estudiante, int semestre)
+    public static ArrayList<MateriaEstudiante> ordenarMaterias(Estudiante estudiante, double semestre)
     {
         ArrayList<MateriaEstudiante> copy = new ArrayList<>();
         for (MateriaEstudiante mat : estudiante.darCursosTomados())
@@ -68,7 +68,7 @@ public class reporteNotas
         return copy;
     }
 
-    public static String promedioSemestre(Estudiante estudiante, int semestre)
+    public static String promedioSemestre(Estudiante estudiante, double semestre)
     {
         double promedio = 0;
         int contador = 0;
