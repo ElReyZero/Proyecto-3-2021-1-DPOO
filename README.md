@@ -31,9 +31,18 @@ Carrera
 
 Código de la Materia | Semestre en que se planeó ver
 
+Estructura del archivo de reglas del pensum
+Código Materia Vieja | Código de materia a homologar
+
 
 Archivos incluidos en la carpeta data:
 currículoISIS.csv - Currículo de la carrera en formato csv
+currículoISISMod.csv – Currículo modificado de la carrera en formato csv
 materias202013449.csv - Ejemplo de estudiante que ha cumplido con todos los requisitos para graduarse
 prueba1.csv - Ejemplo 2 de estudiante con solo 2 materias
+reglas.csv – Ejemplo de un archivo de reglas de transición entre pensums
+cartelera.csv – Ejemplo de cartelera convertido a csv
+
+Archivo en carpeta logs:
+Logs.txt – Ejemplo del archivo de logs de errores
 
